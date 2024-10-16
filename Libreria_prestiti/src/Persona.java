@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class Persona
 {
-    public String nome;
-    public boolean prestato;
+    protected String nome;
+    protected boolean prestato;
     protected String tesseraBiblioteca;
     protected int durataDelPrestito;
     protected String dataInizioPrestito;
