@@ -2,9 +2,58 @@ import java.util.Scanner;
 
 public class Persona
 {
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isPrestato() {
+        return prestato;
+    }
+
+    public void setPrestato(boolean prestato) {
+        this.prestato = prestato;
+    }
+
+    public String getTesseraBiblioteca() {
+        return tesseraBiblioteca;
+    }
+
+    public void setTesseraBiblioteca(String tesseraBiblioteca) {
+        this.tesseraBiblioteca = tesseraBiblioteca;
+    }
+    
+    public int getDurataDelPrestito() {
+        return durataDelPrestito;
+    }
+
+    public void setDurataDelPrestito(int durataDelPrestito) {
+        this.durataDelPrestito = durataDelPrestito;
+    }
+
+    public String getDataInizioPrestito() {
+        return dataInizioPrestito;
+    }
+
+    public void setDataInizioPrestito(String dataInizioPrestito) {
+        this.dataInizioPrestito = dataInizioPrestito;
+    }
+
+    public String getDataFinePrestito() {
+        return dataFinePrestito;
+    }
+
+    public void setDataFinePrestito(String dataFinePrestito) {
+        this.dataFinePrestito = dataFinePrestito;
+    }
+
     private String nome;
     private boolean prestato;
     private String tesseraBiblioteca;
+    
     //dovrà essere un valore costante
     private int durataDelPrestito;
     private String dataInizioPrestito;
