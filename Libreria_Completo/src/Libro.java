@@ -3,7 +3,7 @@ import java.util.Scanner;
 import static tools.utility.*;
 
 
-enum genere {Romanzo, Manuale, enciclopedia, fumetto};
+enum genere {romanzo, manuale, enciclopedia, fumetto};
 
 public class Libro
 {
@@ -145,11 +145,11 @@ public class Libro
     }
 
     //metodo per inserimento del libro nello scaffale
-    public static Libro[] inserisciLibro(Libro[] scaffale, Scanner input) {
+    public static Libro[] inserisciLibro(Libro[] scaffale, Scanner input, int contLibri) {
 
         Libro libro = new Libro();
         boolean errato = false;
-
+        String[] tipoG = {"GENERE", "romanzo", "manuale", "enciclopedia", "fumetto"};
 
         System.out.println("**********************************");
         System.out.println("INSERIMENTO LIBRO NELLO SCAFFALE");
@@ -186,12 +186,19 @@ public class Libro
 
         System.out.println("Inserisci l'editore del libro");
         libro.setEditore(input.nextLine());
-
+        
+        
         System.out.println("Di che tipo è il tuo romanzo");
-        switch (Menu(genere, input)){
+        switch (Menu(tipoG, input)){
 
-            case 1 -> libro.
+            case 1 -> libro.setTipo(genere.romanzo);
+            case 2 -> libro.setTipo(genere.manuale);
+            case 3 -> libro.setTipo(genere.enciclopedia);
+            case 4 -> libro.setTipo(genere.fumetto);
+
         }
+
+        scaffale[contLibri] = libro;
 
 
         return scaffale;
