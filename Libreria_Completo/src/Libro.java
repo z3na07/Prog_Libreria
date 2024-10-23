@@ -1,9 +1,17 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import static tools.utility.*;
+
 
 enum genere {Romanzo, Manuale, enciclopedia, fumetto};
 
-public class Libro {
+public class Libro
+{
+
+    final int fMax = 50;
+    Libro [] scaffale = new Libro[fMax];
+
+
     //costruttore della classe
     public Libro(String _isbn, String _editore, String _titolo, double _prezzo, boolean _venduto, String _autore) {
         isbn = _isbn;
@@ -24,6 +32,7 @@ public class Libro {
         autore = null;
     }
 
+    //Tutti metodi get e set
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
@@ -71,6 +80,13 @@ public class Libro {
     public String getIsbn() {
         return isbn;
     }
+    public genere getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(genere tipo) {
+        this.tipo = tipo;
+    }
 
     //vari attributi
     private String isbn;
@@ -86,6 +102,9 @@ public class Libro {
 
     private String autore;
 
+    private genere tipo;
+
+
     //override del metodo to string in modo da farli stampare quello che vogliamo
     @Override
     public String toString() {
@@ -93,7 +112,8 @@ public class Libro {
     }
 
     //metodo ricerca di un libro in scaffale
-    private static void ricerca(Libro input, Libro[] scaffale, final int MAX_LIBRI) {
+    private static void ricerca(Libro input, Libro[] scaffale, final int MAX_LIBRI)
+    {
 
         String titolo;
         String autore;
@@ -124,7 +144,7 @@ public class Libro {
 
     }
 
-
+    //metodo per inserimento del libro nello scaffale
     public static Libro[] inserisciLibro(Libro[] scaffale, Scanner input) {
 
         Libro libro = new Libro();
@@ -167,12 +187,23 @@ public class Libro {
         System.out.println("Inserisci l'editore del libro");
         libro.setEditore(input.nextLine());
 
+        System.out.println("Di che tipo è il tuo romanzo");
+        switch (Menu(genere, input)){
+
+            case 1 -> libro.
+        }
+
 
         return scaffale;
     }
 
 
+
+
+
+
 }
+
 
 
 
