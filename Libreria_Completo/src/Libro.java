@@ -1,6 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import static tools.utility.*;
+import java.util.ArrayList;
 
 
 enum genere {romanzo, manuale, enciclopedia, fumetto};
@@ -8,8 +8,7 @@ enum genere {romanzo, manuale, enciclopedia, fumetto};
 public class Libro
 {
 
-    final int fMax = 50;
-    Libro [] scaffale = new Libro[fMax];
+
 
 
     //costruttore della classe
@@ -80,6 +79,7 @@ public class Libro
     public String getIsbn() {
         return isbn;
     }
+
     public genere getTipo() {
         return tipo;
     }
@@ -112,49 +112,34 @@ public class Libro
     }
 
     //metodo ricerca di un libro in scaffale
-    private static void ricerca(Libro input, Libro[] scaffale, final int MAX_LIBRI)
-    {
-
+    private static void ricerca(Libro input, ArrayList<Libro> scaffale) {
         String titolo;
         String autore;
 
         System.out.println("Inserisci il titolo del libro che vuoi ricercare");
         titolo = input.titolo;
 
-        for (int i = 0; i < MAX_LIBRI; i++) {
-
-            if (scaffale[i].titolo.equalsIgnoreCase(titolo)) {
-
+        for (int i = 0; i < scaffale.size(); i++) {
+            if (scaffale.get(i).titolo.equalsIgnoreCase(titolo)) {
                 System.out.println("Inserisci l'autore del tuo libro");
                 autore = input.autore;
 
-                if (scaffale[i].autore.equalsIgnoreCase(autore)) {
-
+                if (scaffale.get(i).autore.equalsIgnoreCase(autore)) {
                     System.out.println("Il tuo libro è stato trovato, ecco i suoi dati");
-                    System.out.println(scaffale[i].toString());
-
-
+                    System.out.println(scaffale.get(i).toString());
                 }
-
-
             }
-
         }
-
-
     }
 
-    //metodo per inserimento del libro nello scaffale
-    public static Libro[] inserisciLibro(Libro[] scaffale, Scanner input, int contLibri) {
-
+    //metodo inserimento di un libro
+    public static Libro inserisciLibro(ArrayList<Libro> scaffale, Scanner input) {
         Libro libro = new Libro();
-        boolean errato = false;
         String[] tipoG = {"GENERE", "romanzo", "manuale", "enciclopedia", "fumetto"};
 
         System.out.println("**********************************");
         System.out.println("INSERIMENTO LIBRO NELLO SCAFFALE");
         System.out.println("**********************************");
-
 
         System.out.println("Inserisci il titolo del libro");
         libro.setTitolo(input.nextLine());
@@ -164,16 +149,13 @@ public class Libro
             libro.setAutore(input.nextLine());
         } while (libro.autore.matches(".*\\d.*"));
 
-
-
-        while(true) {
+        while (true) {
             try {
                 System.out.println("Inserisci il prezzo del Libro");
                 libro.setPrezzo(Double.parseDouble(input.next()));
                 break;
             } catch (Exception e) {
                 System.out.println("Valore errato, reinserire");
-
             }
         }
 
@@ -183,41 +165,25 @@ public class Libro
             libro.setIsbn(input.nextLine());
         } while (libro.getIsbn().length() != 12);
 
-
         System.out.println("Inserisci l'editore del libro");
         libro.setEditore(input.nextLine());
-        
-        
-        System.out.println("Di che tipo è il tuo romanzo");
-        switch (Menu(tipoG, input)){
 
+        System.out.println("Di che tipo è il tuo romanzo");
+        switch (Utility.Menu(tipoG, input)) {
             case 1 -> libro.setTipo(genere.romanzo);
             case 2 -> libro.setTipo(genere.manuale);
             case 3 -> libro.setTipo(genere.enciclopedia);
             case 4 -> libro.setTipo(genere.fumetto);
-
         }
 
-        scaffale[contLibri] = libro;
+        return libro;
+    }
 
-
-        return scaffale;
+    public static void visualizzaScaffale(ArrayList<Libro> scaffale)
+    {
+        System.out.println(scaffale.toString());
     }
 
 
 
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-

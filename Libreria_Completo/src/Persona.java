@@ -1,24 +1,23 @@
+import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Persona
 {
-
-
     private String nome;
     private boolean prestato;
     private String tesseraBiblioteca;
 
     //dovrà essere un valore costante
     private int durataDelPrestito;
-    private String dataInizioPrestito;
-    private String dataFinePrestito;
+    private LocalDate dataInizioPrestito;
+    private LocalDate dataFinePrestito;
     //decidete se aggiungere prenota come attributo
-
     private String password;
     private final int libriPrestatiMax;
 
     //creazione costruttore
-    public Persona(String _nome, boolean _prestato, String _tesseraBiblioteca, int _durataDelPrestito, String _dataInizioPrestito, String _dataFinePrestito, final int _libriPrestatiMax, String _password)
+    public Persona(String _nome, boolean _prestato, String _tesseraBiblioteca, int _durataDelPrestito, LocalDate _dataInizioPrestito, LocalDate _dataFinePrestito, final int _libriPrestatiMax, String _password)
     {
         this.nome = _nome;
         this.prestato = _prestato;
@@ -52,11 +51,6 @@ public class Persona
         return String.format("Nome dell'Utente: %sTessera della biblioteca: %s Libro in prestito: %b Durata del prestito: %d Inizio del prestito: %s Scadenza del prestito: %s \n"
                 ,nome, tesseraBiblioteca, prestato, durataDelPrestito, dataInizioPrestito, dataFinePrestito);
     }
-
-    /*public String setNome() finisci il metodo
-    {
-
-    }*/
 
     public String getNome()
     {
@@ -98,7 +92,7 @@ public class Persona
         this.durataDelPrestito = durataDelPrestito;
     }
 
-    public String getDataInizioPrestito()
+    /*public String getDataInizioPrestito()
     {
         return dataInizioPrestito;
     }
@@ -116,7 +110,7 @@ public class Persona
     public void setDataFinePrestito(String dataFinePrestito)
     {
         this.dataFinePrestito = dataFinePrestito;
-    }
+    }*/
 
     public String getPassword()
     {
@@ -132,12 +126,12 @@ public class Persona
 
 
     //metodo che permette l'accesso a i metodi sottostanti per poter visualizzare i propri dati personali sui libri
-    public static String permessoDiUtilizzo(Persona[] catalogoPersone, Persona utente1)
+    public static String permessoDiUtilizzo(ArrayList <Persona> catalogoPersone, Persona utente1)
     {
         //fai inserire da main la TesseraBiblioteca
-        for(int i=0; i < catalogoPersone.length; i++)
+        for(int i=0; i < catalogoPersone.size(); i++)
         {
-            if(catalogoPersone[i].tesseraBiblioteca.equalsIgnoreCase(utente1.tesseraBiblioteca))
+            if(catalogoPersone.get(i).tesseraBiblioteca.equalsIgnoreCase(utente1.tesseraBiblioteca))
             {
                 return "Bentoranto utente: "+ utente1.nome;
             }
@@ -148,14 +142,14 @@ public class Persona
 
     //questo metodo visualizza se l'utente ha libri presi in prestito, prima di fare ciò vediamo se ha la TesseraBiblioteca
 
-    public static void visualizzaLibriPrestati(Persona [] catalogoPersone)
+    public static void visualizzaLibriPrestati(ArrayList <Persona> catalogoPersone)
     {
         System.out.println("I libri prestati sono: ");
 
-        for(int i=0; i < catalogoPersone.length; i++)
+        for(int i=0; i < catalogoPersone.size(); i++)
         {
-            System.out.println("Tessera della biblioteca: "+catalogoPersone[i].tesseraBiblioteca);
-            if(catalogoPersone[i].prestato == true)
+            System.out.println("Tessera della biblioteca: "+catalogoPersone.get(i).tesseraBiblioteca);
+            if(catalogoPersone.get(i).prestato /*== true*/)
             {
                 System.out.println("L'utente ha preso in prestito il libro ");
             }
@@ -176,17 +170,17 @@ public class Persona
     }
 
     //visualizza dati Utente
-    public static void visualizzaDatiUtente(Persona [] catalogoPersone, String utenteDappoggio, Scanner scanner)
+    public static void visualizzaDatiUtente(ArrayList <Persona> catalogoPersone, String utenteDappoggio, Scanner scanner)
     {
         //Inserire Perona.tesseraBiblioteca
         System.out.println("Inserire tessera della biblioteca: ");
         utenteDappoggio = scanner.nextLine();
 
-        for(int i=0; i < catalogoPersone.length; i++)
+        for(int i=0; i < catalogoPersone.size(); i++)
         {
-            if(catalogoPersone[i].tesseraBiblioteca.equalsIgnoreCase(utenteDappoggio))
+            if(catalogoPersone.get(i).tesseraBiblioteca.equalsIgnoreCase(utenteDappoggio))
             {
-                catalogoPersone[i].toString();
+                catalogoPersone.get(i).toString();
             }
 
         }
@@ -194,7 +188,7 @@ public class Persona
     }
 
     //metodo che la persona può utilizzare per vedere quanti libri ha in prestito al momento
-    public static void  visualizzaLibriInPrestito(Persona [] catalogoPersone )
+    public static void  visualizzaLibriInPrestito(ArrayList <Persona> catalogoPersone )
     {
 
 
@@ -202,7 +196,7 @@ public class Persona
     }
 
     //metodo inserimento persona in catalogoPersone
-    public static Persona [] registrati(Persona [] catalogoPersone, Scanner scanner, int contPersone) throws Exception
+    public static Persona registrati(ArrayList <Persona> catalogoPersone, Scanner scanner, int contPersone) //throws Exception
     {
         //crazione oggetto
         Persona utente = new Persona();
@@ -211,49 +205,43 @@ public class Persona
         do
         {
             System.out.println("Inserisci il tuo nome");
-            utente.setNome(scanner.next());
+            utente.setNome(scanner.nextLine());
         }while(utente.nome.matches(".*\\d.*"));
 
         System.out.println("Inserisci la tua password");
-        utente.setPassword(scanner.next());
-
-        catalogoPersone[contPersone] = utente;
+        utente.setPassword(scanner.nextLine());
 
         System.out.println("ACCOUNT CREATO \n\n");
 
-        //contPersone deve essere aumentato di uno nel main ogni volta che il petodo ha avuto successo
+        //nello switch crea un oggetto nul che verrà uguagliato a questo metodo, poi aggiungi all'array list l'oggetto che è stato creato nel main
 
-        return catalogoPersone;
+        return utente;
     }
 
 
-    public static boolean accedi(Persona [] catalogoPersone, Scanner scanner)
+    public static boolean accedi(ArrayList <Persona> catalogoPersone, Scanner scanner)
     {
-        String name,pass;
+        String name, pass;
 
         System.out.println("Inserisci l'id della tessera bibilioteca: ");
-        name = scanner.next();
+        name = scanner.nextLine();
 
         System.out.println("Inserisci la password");
-        pass = scanner.next();
+        pass = scanner.nextLine();
 
-        for(int i=0;i< catalogoPersone.length;i++)
+        for (int i = 0; i < catalogoPersone.size(); i++)
         {
-            if(catalogoPersone[i].nome.equals(name))
+            if (catalogoPersone.get(i).nome.equals(name))
             {
-                if(catalogoPersone[i].password.equals(pass))
+                if (catalogoPersone.get(i).password.equals(pass))
                 {
                     return true;
                 }
-
             }
-
         }
+            return false;
 
-        return false;
     }
-
-
 
 
 
