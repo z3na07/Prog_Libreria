@@ -1,8 +1,21 @@
 import java.util.Scanner;
 import java.util.ListResourceBundle;
 
+/**
+ * Classe con all'interno metodi gia pre-creati che potrebbero servire
+ * @version beta
+ * */
 public class Utility
 {
+
+    /**
+     * Metodo menu che visualizza a schermo un menu in modo che l'utente possa selezionare una scelta
+     *
+     * @param opzioni {@code Array} di tipo Stringa che contiene al suo interno i vari campi di selezione
+     * @param scanner  scanner che legge i dati in input
+     *
+     * @return il metodo ritorna il valore numerico della scelta
+     * */
     public static int Menu(String opzioni[], Scanner scanner) {// parametri formali
         int scelta;
 
@@ -26,13 +39,28 @@ public class Utility
         return scelta;
     }
 
-    //Il costruttore ha lo stessp nome della classe
+    /**
+     * impedisce di istanziare la classe:
+     *          Se un costruttore è dichiarato come privato, non può essere
+     *          invocato dall'esterno della classe,
+     *          rendendo impossibile creare nuove istanze da altre classi.
+     * */
     private Utility()
-    {}; /*impedisce di istanziare la classe:
-         Se un costruttore è dichiarato come privato, non può essere
-         invocato dall'esterno della classe,
-         rendendo impossibile creare nuove istanze da altre classi. */
-    public static void clrScr() {
+    {};
+
+
+
+    //@throws InterruptedException Se il thread è interrotto durante l'esecuzione del comando. (nel caso inseriscilo nel commento sottostante)
+    /**
+     * Cancella lo schermo della console eseguendo il comando appropriato per il sistema operativo.
+     *
+     * Se il sistema operativo è Windows, verrà eseguito il comando "cls" per pulire la finestra del terminale.
+     * Se si verifica un errore durante l'esecuzione del comando, l'eccezione verrà stampata nel log degli errori.
+     *
+     *
+     */
+    public static void clrScr()
+    {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception e) {
@@ -40,6 +68,15 @@ public class Utility
         }
     }
 
+    //@throws InterruptedException Se il thread è interrotto durante l'esecuzione del comando.
+    /**
+     * metodo per apsettare
+     *
+     * @param attesa lasso di tempo che si aspetta
+     *
+     *
+     *
+     */
     public static void Wait(int attesa) {
         try {
             Thread.sleep(attesa);
