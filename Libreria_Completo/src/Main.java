@@ -2,8 +2,26 @@ import java.util.Scanner;
 //import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Main {
-    public static void main(String[] args) {
+/**
+ * E' il punto di ingresso principale dell'applicazione.
+ * Contiene il metodo "main" che viene eseguito all'avvio del programma.
+ *
+ * @author Martino (Hallo5685), Leonardo (z3na07), Mattia (programmatoresperto)
+ * @version beta
+ */
+
+public class Main
+{
+    /**
+     * Metodo principale dell'applicazione che viene eseguito ogni inzio programma
+     *
+     * @param args argomenti da riga di comando, che vengono passati all'applicazione al momento dell'esecuzione.
+     *
+     * @version beta
+     * */
+
+    public static void main(String[] args)
+    {
         Scanner keyboard = new Scanner(System.in);
         ArrayList<Persona> catalogoPersone = new ArrayList<>();
         ArrayList<Libro> scaffale = new ArrayList<>();
@@ -24,13 +42,15 @@ public class Main {
         Libro dante = new Libro();
         Libro leopardi = new Libro();
 
-        do {
-            switch (Utility.Menu(opzioniLogin, keyboard)) {
+        do
+        {
+            switch (Utility.Menu(opzioniLogin, keyboard))
+            {
                 case 1:
                     //registrazione
 
                     Persona nuovoUtente = new Persona();
-                    nuovoUtente = Persona.registrati(catalogoPersone, keyboard, contPersone);
+                    nuovoUtente = Persona.registrati(keyboard);
                     catalogoPersone.add(nuovoUtente);
 
                     fineLogin = false;
@@ -62,13 +82,15 @@ public class Main {
 
 
         //switch case che permetterà l'utilizzo el softwere dopo il login DEL COMMESSO
-        do {
-            switch (Utility.Menu(opzioniCom, keyboard)) {
+        do
+        {
+            switch (Utility.Menu(opzioniCom, keyboard))
+            {
                 case 1:
                     //inserimento libro
 
                     Libro libroMomentaneo = new Libro();
-                    libroMomentaneo = Libro.inserisciLibro(scaffale, keyboard);
+                    libroMomentaneo = Libro.inserisciLibro(keyboard);
                     scaffale.add(libroMomentaneo);
 
                     break;
@@ -92,7 +114,8 @@ public class Main {
 
 
         //switch case che permetterà l'utilizzo el softwere dopo il login DEL CLIENTE
-        do {
+        do
+        {
             switch (Utility.Menu(opzioniUtente, keyboard))
             {
                 case 1:
@@ -103,22 +126,22 @@ public class Main {
                     {
 
                     }
-                        break;
-                    case 2:
-                        //visualizza il catalogo
-                        Libro.visualizzaScaffale(scaffale);
-                        break;
+                    break;
+                case 2:
+                    //visualizza il catalogo
+                    Libro.visualizzaScaffale(scaffale);
+                    break;
 
-                        case 3:
-                            break;
+                case 3:
+                    break;
 
-                        case 4:
-                            break;
+                case 4:
+                    break;
 
-                        case 6:
-                            //esci dallo switch case
-                            fine = false;
-                            break;
+                case 6:
+                    //esci dallo switch case
+                    fine = false;
+                    break;
 
             }
 
