@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -25,6 +26,16 @@ public class Commesso {
         this.nome = _nome;
         this.cognome = _cognome;
         this.password =_password;
+    }
+
+    /**
+     * Restituisce la password del commesso
+     *
+     * @return la password commesso
+     */
+    public String getPassword()
+    {
+        return password;
     }
 
     /**
@@ -81,6 +92,33 @@ public class Commesso {
     public String toString() {
         return String.format(" nome: %s, cognome: %s" + nome + cognome + password);
     }
+
+
+
+    /**
+     *  Confronta due oggetti tra loro sfruttando i loro parametri
+     *
+     *  @return {@code true} se gli oggetti sono uguali {@code false} altrimenti
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+        {
+            return true;
+        }
+        if(obj == null || getClass() != obj.getClass())
+        {
+            return false;
+        }
+
+        Commesso commesso = (Commesso) obj;
+
+        return Objects.equals(nome, commesso.nome) &&
+                Objects.equals(cognome, commesso.cognome) &&
+                Objects.equals(password, commesso.password);
+    }
+
 
     /**
      * Metodo privato che cancella un libro dallo scaffale in base al titolo fornito dall'utente
