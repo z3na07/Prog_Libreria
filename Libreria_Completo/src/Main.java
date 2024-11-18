@@ -29,9 +29,10 @@ public class Main
         ArrayList<Persona> catalogoPersone = new ArrayList<>();
         ArrayList<Libro> scaffale = new ArrayList<>();
 
+
         String[] opzioniLogin = {"MENU", "Registrati", "entrata cliente", "entrata commesso", "uscita"};
-        String[] opzioniCom = {"BIBLIOTECA", "Inserisci Libro", "Visualizza scaffale", "", "", "uscita"};
-        String[] opzioniUtente = {"MENU", "Acquista libro", "Cerca i tuoi libri", "Visualizza il catalogo", "Prendi in prestito","Visualizza dati utente", "uscita"};
+        String[] opzioniCom = {"BIBLIOTECA", "Inserisci Libro", "Visualizza scaffale", "Rimuovi Libro", "", "uscita"};
+        String[] opzioniUtente = {"MENU", "Acquista libro", "Visualizza carrello", "Visualizza il catalogo","Visualizza dati utente", "uscita"};
 
         //dichiarazioni boolean
         boolean fineCommesso = true;
@@ -41,18 +42,19 @@ public class Main
         //dichiarazione variabili intere
         int contPersone = 0;
         int indice = 0;
-        int numeroProgressivo = 0;
+        String tesseraFake;
+
 
         //creazione dei libri di defaul da metter di base nell'array list scaffale
         Libro petrarca = new Libro("1234", "Enaudi", "Il Canzoniere ", 14, false, "Petrarca");
-        Libro boccaccio = new Libro("1738", "Giunti", "Il Decamerun", 15, false, "Boccaccio");
+        Libro boccaccio = new Libro("1738", "Giunti", "Il Decameron", 15, false, "Boccaccio");
         Libro dante = new Libro("1890", "Mondadori", "La Divina Commedia", 50, false, "Dante");
-        Libro leopardi = new Libro("900", "Feltrinelli", "L'infinito", 16, false, "Leopardi");
+        Libro manzoni = new Libro("900", "Feltrinelli", "I Promessi Sposi", 16, false, "Manzoni");
 
         scaffale.add(petrarca);
         scaffale.add(boccaccio);
         scaffale.add(dante);
-        scaffale.add(leopardi);
+        scaffale.add(manzoni);
 
         do
         {
@@ -77,19 +79,24 @@ public class Main
                                     System.out.println("Non ci sono libri da acquistare");
                                 } else
                                 {
-                                    if(Libro.ricerca(scaffale, keyboard, indice))
+                                    if(Libro.ricerca(scaffale, keyboard, indice) == -1)
                                     {
-                                        System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
-                                        //System.out.println("Il libro verrà messo nel carrello ");
+                                        System.out.println("Il libro non è presente nel catalogo ");
                                     }
                                     else
                                     {
-                                        System.out.println("Il libro non è presente nel catalogo ");
+                                        System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
+                                        Utility.Wait(3);
+                                        System.out.println("Il libro verrà messo nel carrello ");
+                                        scaffale.get(indice).setVenduto(true);
                                     }
                                 }
                                 break;
 
                             case 2:
+
+                                Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone);
+
                                 break;
 
                             case 3:
@@ -98,15 +105,12 @@ public class Main
                                 break;
 
                             case 4:
-                                break;
-
-                            case 5:
                                 //visualizza dati dell'utente
                                 Persona.visualizzaDatiUtente(catalogoPersone, keyboard);
 
                                 break;
 
-                            case 6:
+                            case 5:
 
                                 //esci dallo switch case
                                 fine = false;
@@ -141,7 +145,7 @@ public class Main
 
                     if(passwordRapida.equals(commesso.getPassword()))
                     {
-
+                        //CASEW ENORME
                     }
                     break;
 
@@ -172,6 +176,7 @@ public class Main
                     break;
 
                 case 3:
+                    Libro.rimuoviLibro(scaffale, keyboard);
                     break;
 
                 case 4:
