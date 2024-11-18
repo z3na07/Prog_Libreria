@@ -229,9 +229,9 @@ public class Libro
      *
      * @return {@code true} se il libro è stato trovato, {@code false} altrimenti
      * */
-    public static boolean ricerca(ArrayList<Libro> scaffale, Scanner keyboard, int indice)
+    public static int ricerca(ArrayList<Libro> scaffale, Scanner keyboard, int indice)
     {
-        System.out.println("Inserire il l'isbn del libro che vuole comprare: ");
+        System.out.println("Inserire il l'isbn del libro: ");
         String isbnMomentaneo = keyboard.nextLine();
 
         for (Libro libro : scaffale)
@@ -241,10 +241,10 @@ public class Libro
                 indice = scaffale.indexOf(libro);
                 //fai in modo che esista un modo per salvare un massimo di 3 libri in un "carrello" che rispode all'utente
 
-                return true;
+                return indice;
             }
         }
-        return false;
+        return -1;
     }
 
     /**
@@ -318,6 +318,26 @@ public class Libro
             System.out.println(libro);
         }
     }
+
+
+
+    public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard){
+
+        String isbnFittizzio;
+
+        System.out.println("Inserisci l'isbn del libro");
+        isbnFittizzio = keyboard.next();
+
+        for(Libro libro : scaffale){
+
+            if(libro.getIsbn().equals(isbnFittizzio)){
+                scaffale.remove(libro);
+            }
+        }
+
+    }
+
+
 
 
 
