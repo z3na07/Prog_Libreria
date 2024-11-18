@@ -70,7 +70,7 @@ public class Persona
     @Override
     public String toString()
     {
-        return String.format("Nome dell'Utente: %sTessera della biblioteca: %s Libro in prestito: %b Durata del prestito: %d Inizio del prestito: %s Scadenza del prestito: %s \n"
+        return String.format("Nome dell'Utente: %s Tessera della biblioteca: %s Libro in prestito: %b Durata del prestito: %d Inizio del prestito: %s Scadenza del prestito: %s \n"
                 ,nome, tesseraBiblioteca, prestato, durataDelPrestito, dataInizioPrestito, dataFinePrestito);
     }
 
@@ -183,7 +183,6 @@ public class Persona
 
     /**
      * Restituisce la password dell'utente.
-     *
      * Questo metodo è un **getter** che permette di accedere al valore della password associata all'utente.
      *
      * @return la password dell'utente.
@@ -206,15 +205,15 @@ public class Persona
     }
 
 
-    /**
-    * Metodo che permette l'accesso a i metodi sottostanti per poter visualizzare i propri dati personali sui libri
-    *
-    * @param catalogoPersone Arraylist di tipo Persona
-    * @param utente1 oggetto di tipo persona che interpreta l'utente
-    *
-    * @return in base alla tessera restituisce l'utente o un messaggio di errore
+     /*
+     * Metodo che permette l'accesso a i metodi sottostanti per poter visualizzare i propri dati personali sui libri
+     *
+     * @param catalogoPersone Arraylist di tipo Persona
+     * @param utente1 oggetto di tipo persona che interpreta l'utente
+     *
+     * @return in base alla tessera restituisce l'utente o un messaggio di errore
      */
-    public static String permessoDiUtilizzo(ArrayList <Persona> catalogoPersone, Persona utente1)
+/*    public static String permessoDiUtilizzo(ArrayList <Persona> catalogoPersone, Persona utente1)
     {
         //fai inserire da main la TesseraBiblioteca
         for(int i=0; i < catalogoPersone.size(); i++)
@@ -226,9 +225,9 @@ public class Persona
         }
         return "La tessera della biblioteca inserita non è corretta ";
     }
+*/
 
-
-     /**
+    /**
      * Metodo che visualizza se l'utente ha libri presi in prestito, prima di fare ciò vediamo se ha la TesseraBiblioteca
      *
      * @param catalogoPersone Arraylist di tipo Persona
@@ -273,23 +272,22 @@ public class Persona
      * Metodo che dopo aver verificato la tessera della biblioteca inserita da tastiera stampa i dati del cliente che ha inserito la tessera
      *
      * @param catalogoPersone Arraylist di tipo Persona di cui verrà stampato la cella selezionata
-     * @param scanner scanner che legge dati in input
+     * @param keyboard scanner che legge dati in input
      */
-    public static void visualizzaDatiUtente(ArrayList <Persona> catalogoPersone, Scanner scanner)
+    public static void visualizzaDatiUtente(ArrayList <Persona> catalogoPersone, Scanner keyboard)
     {
         String utenteDappoggio;
 
         //Inserire Perona.tesseraBiblioteca
         System.out.println("Inserire tessera della biblioteca: ");
-        utenteDappoggio = scanner.nextLine();
+        utenteDappoggio = keyboard.nextLine();
 
-        for(int i=0; i < catalogoPersone.size(); i++)
+        for(Persona persona : catalogoPersone)
         {
-            if(catalogoPersone.get(i).tesseraBiblioteca.equalsIgnoreCase(utenteDappoggio))
+            if(persona.tesseraBiblioteca.equals(utenteDappoggio))
             {
-                catalogoPersone.toString();
+                System.out.println(persona.toString());
             }
-
         }
 
     }
@@ -323,13 +321,19 @@ public class Persona
         {
             System.out.println("Inserisci il tuo nome");
             utente.setNome(scanner.nextLine());
+
         }while(utente.nome.matches(".*\\d.*"));
 
         System.out.println("Inserisci la tua password");
         utente.setPassword(scanner.nextLine());
 
-        System.out.println("ACCOUNT CREATO \n\n");
+        String randomStr = RandomStringGenerator.generateRandomString(5);
+        utente.tesseraBiblioteca = randomStr;
 
+        System.out.println("ACCOUNT CREATO \n");
+
+        //stampa della tessera da biblioteca tramite la variabile appena generata
+        System.out.println("Ecco la tessera della biblioteca: "+randomStr);
         //nello switch crea un oggetto nul che verrà uguagliato a questo metodo, poi aggiungi all'array list l'oggetto che è stato creato nel main
 
         return utente;
@@ -337,7 +341,6 @@ public class Persona
 
     /**
      * Permette ad un utente di accedere al sistema verificando l'ID della tessera e la password.
-     *
      * Questo metodo chiede all'utente di inserire l'ID della tessera della biblioteca e una password.
      * I dati immessi vengono confrontati con le informazioni contenute nel catalogo delle persone registrate.
      * Se l'ID e la password inseriti corrispondono a un utente registrato, il metodo restituisce {@code true}.
@@ -358,11 +361,11 @@ public class Persona
         System.out.println("Inserisci la password");
         pass = scanner.nextLine();
 
-        for (int i = 0; i < catalogoPersone.size(); i++)
+        for (Persona persona : catalogoPersone)
         {
-            if (catalogoPersone.get(i).nome.equals(name))
+            if (persona.nome.equals(name))
             {
-                if (catalogoPersone.get(i).password.equals(pass))
+                if (persona.password.equals(pass))
                 {
                     return true;
                 }
