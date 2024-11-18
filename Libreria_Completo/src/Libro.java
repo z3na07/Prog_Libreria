@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -11,9 +12,6 @@ enum genere {romanzo, manuale, enciclopedia, fumetto};
  * */
 public class Libro
 {
-
-
-
 
     /**
      * Costruttore della classe {@code Libro}. Questo costruttore inizializza un oggetto {@code Libro}
@@ -163,7 +161,8 @@ public class Libro
      *
      * @return ritorna il calore del campo tipo
      * */
-    public genere getTipo() {
+    public genere getTipo()
+    {
         return tipo;
     }
 
@@ -178,18 +177,11 @@ public class Libro
 
     //vari attributi
     private String isbn;
-
-
     private String editore;
-
     private String titolo;
-
     private double prezzo;
-
     private boolean venduto;
-
     private String autore;
-
     private genere tipo;
 
 
@@ -199,34 +191,60 @@ public class Libro
      * @return riorna una {@code String} in cui sono stampati tutti gli attributi del libro e i loro corrispettivi valori
      * */
     @Override
-    public String toString() {
-        return String.format("isbn libro: %s Editore libro: %s Titolo: %s Prezzo: %d Venduto %b\n", isbn, editore, titolo, prezzo, venduto);
+    public String toString()
+    {
+        return String.format("isbn libro: %s || Editore libro: %s || Titolo: %s || Prezzo: %.2f || Venduto: %b\n", isbn, editore, titolo, prezzo, venduto);
     }
 
     /**
-     * Metodo ricerca che ricera un libro all'interno dell'arraylist scaffale e ne stampa tutti i dati
      *
-     * @param input scanner che legge i dati in input
-     * @param scaffale un {@code ArrayList} di tipo {@code Libro} al cui interno sono salvati tutti i libri
+     * Ovveride del metodo equals
+     *
+     * @return {@code true} se gli oggetti comprati sono uguali, {@code false} altrimenti
      * */
-    private static void ricerca(Libro input, ArrayList<Libro> scaffale) {
-        String titolo;
-        String autore;
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
 
-        System.out.println("Inserisci il titolo del libro che vuoi ricercare");
-        titolo = input.titolo;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        for (int i = 0; i < scaffale.size(); i++) {
-            if (scaffale.get(i).titolo.equalsIgnoreCase(titolo)) {
-                System.out.println("Inserisci l'autore del tuo libro");
-                autore = input.autore;
+        Libro libro = (Libro) o;
 
-                if (scaffale.get(i).autore.equalsIgnoreCase(autore)) {
-                    System.out.println("Il tuo libro è stato trovato, ecco i suoi dati");
-                    System.out.println(scaffale.get(i).toString());
-                }
+        return Double.compare(prezzo, libro.prezzo) == 0 && venduto == libro.venduto && Objects.equals(isbn, libro.isbn) && Objects.equals(editore, libro.editore) && Objects.equals(titolo, libro.titolo) && Objects.equals(autore, libro.autore) && tipo == libro.tipo;
+    }
+
+    //DA DOCUMENTARE IN JAVADOC
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(isbn, editore, titolo, prezzo, venduto, autore, tipo);
+    }
+
+    /**
+     * Metodo ricerca che restituisce un booleano e cerca i libri tramite l'isbn univoco
+     *
+     * @param keyboard scanner che legge i dati in input
+     * @param scaffale un {@code ArrayList} di tipo {@code Libro} al cui interno sono salvati tutti i libri
+     *
+     * @return {@code true} se il libro è stato trovato, {@code false} altrimenti
+     * */
+    public static boolean ricerca(ArrayList<Libro> scaffale, Scanner keyboard, int indice)
+    {
+        System.out.println("Inserire il l'isbn del libro che vuole comprare: ");
+        String isbnMomentaneo = keyboard.nextLine();
+
+        for (Libro libro : scaffale)
+        {
+            if (libro.isbn.equalsIgnoreCase(isbnMomentaneo))
+            {
+                indice = scaffale.indexOf(libro);
+                //fai in modo che esista un modo per salvare un massimo di 3 libri in un "carrello" che rispode all'utente
+
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -236,7 +254,10 @@ public class Libro
      *
      * @return il programma returna l'oggetto libro che poi verrà inserito in scaffale
      * */
-    public static Libro inserisciLibro(Scanner input) {
+
+    //QUANDO INSERISCI UN LIBRO DEVI CREARE IL SUO ISBN CON UN RANDOM, MA SE IL LIBRO GIA' ESISTE ALLORA DEVI COPIARE IL SUO ISBN (SENZA USARE IL RANDOM)
+    public static Libro inserisciLibro(Scanner input)
+    {
         Libro libro = new Libro();
         String[] tipoG = {"GENERE", "romanzo", "manuale", "enciclopedia", "fumetto"};
 
@@ -247,7 +268,8 @@ public class Libro
         System.out.println("Inserisci il titolo del libro");
         libro.setTitolo(input.nextLine());
 
-        do {
+        do
+        {
             System.out.println("Inserisci l'autore del libro");
             libro.setAutore(input.nextLine());
         } while (libro.autore.matches(".*\\d.*"));
@@ -263,9 +285,11 @@ public class Libro
         }
 
         input.nextLine();
-        do {
+        do
+        {
             System.out.println("Inserisci ISBN del libro");
             libro.setIsbn(input.nextLine());
+
         } while (libro.getIsbn().length() != 12);
 
         System.out.println("Inserisci l'editore del libro");
@@ -289,7 +313,10 @@ public class Libro
      * */
     public static void visualizzaScaffale(ArrayList<Libro> scaffale)
     {
-        System.out.println(scaffale.toString());
+        for(Libro libro : scaffale)
+        {
+            System.out.println(libro);
+        }
     }
 
 
