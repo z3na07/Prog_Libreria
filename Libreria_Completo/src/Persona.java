@@ -17,33 +17,21 @@ public class Persona
 
     //dovrà essere un valore costante
     private int durataDelPrestito;
-    private LocalDate dataInizioPrestito;
-    private LocalDate dataFinePrestito;
     //decidete se aggiungere prenota come attributo
     private String password;
-    private final int libriPrestatiMax;
+
 
     /**
      * Costruttore per creare un oggetto {@link Persona} con tutte le informazioni relative alla persona e al suo prestito bibliotecario.
      *
      * @param _nome il nome della persona.
-     * @param _prestato lo stato del prestito, dove {@code true} indica che la persona ha dei libri in prestito, {@code false} in caso non ne abbia.
      * @param _tesseraBiblioteca l'ID della tessera biblioteca associata alla persona.
-     * @param _durataDelPrestito la durata del prestito in giorni.
-     * @param _dataInizioPrestito la data di inizio del prestito.
-     * @param _dataFinePrestito la data di fine del prestito.
-     * @param _libriPrestatiMax il numero massimo di libri che la persona può avere in prestito.
      * @param _password la password associata alla persona per l'accesso al sistema.
      */
-    public Persona(String _nome, boolean _prestato, String _tesseraBiblioteca, int _durataDelPrestito, LocalDate _dataInizioPrestito, LocalDate _dataFinePrestito, final int _libriPrestatiMax, String _password)
+    public Persona(String _nome, String _tesseraBiblioteca, String _password)
     {
         this.nome = _nome;
-        this.prestato = _prestato;
         this.tesseraBiblioteca = _tesseraBiblioteca;
-        this.durataDelPrestito = _durataDelPrestito;
-        this.dataInizioPrestito = _dataInizioPrestito;
-        this.dataFinePrestito = _dataFinePrestito;
-        this.libriPrestatiMax = _libriPrestatiMax;
         this.password =_password;
     }
 
@@ -55,10 +43,7 @@ public class Persona
         this.nome = null;
         this.prestato = false;
         this.tesseraBiblioteca = null;
-        this.durataDelPrestito = 0;
-        this.dataInizioPrestito = null;
-        this.dataFinePrestito = null;
-        this.libriPrestatiMax = 0;
+
     }
 
     /**
@@ -70,8 +55,8 @@ public class Persona
     @Override
     public String toString()
     {
-        return String.format("Nome dell'Utente: %s Tessera della biblioteca: %s Libro in prestito: %b Durata del prestito: %d Inizio del prestito: %s Scadenza del prestito: %s \n"
-                ,nome, tesseraBiblioteca, prestato, durataDelPrestito, dataInizioPrestito, dataFinePrestito);
+        return String.format("Nome dell'Utente: %s Tessera della biblioteca: %s  \n"
+                ,nome, tesseraBiblioteca);
     }
 
     /**
@@ -234,24 +219,7 @@ public class Persona
      *
      */
 
-    public static void visualizzaLibriPrestati(ArrayList <Persona> catalogoPersone)
-    {
-        System.out.println("I libri prestati sono: ");
 
-        for(int i=0; i < catalogoPersone.size(); i++)
-        {
-            System.out.println("Tessera della biblioteca: "+catalogoPersone.get(i).tesseraBiblioteca);
-            if(catalogoPersone.get(i).prestato /*== true*/)
-            {
-                System.out.println("L'utente ha preso in prestito il libro ");
-            }
-            else
-            {
-                System.out.println("Non ci sono libri presi in prestito al momento ");
-            }
-        }
-
-    }
 
     /**
      * Inserendo da tessera da biblioteca, controllando se possiede un libro in prestito, se si allora si visualizza quando è iniziato il prestito
@@ -298,10 +266,6 @@ public class Persona
      * @param catalogoPersone Arraylist di tipo Persona
      */
 
-    public static void  visualizzaLibriInPrestito(ArrayList <Persona> catalogoPersone )
-    {
-
-    }
 
     /**
      * Metodo di tipo "Persona " che crea le credenziali del cliente per il primo accesso al softwere facendo inserier i parametri utili tra cui il nome e la password.
@@ -372,6 +336,34 @@ public class Persona
             }
         }
         return false;
+
+    }
+
+
+    /**
+     * Metodo void che visualizza i libri messi nel carrello dall'utente
+     *
+     * @param scaffale {@code ArrayList} di tipo {@code Libro} con al suo interno tutti i libri
+     * @param keyboard Scanner che legge i dati in input
+     * @param catalogoPersone {@code ArrayList} di tipo {@code Persona} con al suo interno tutti le persone che hanno effetuato la registrazione alla Libreria
+     * */
+    public static void visualizzaCarrello(ArrayList<Libro> scaffale, Scanner keyboard, ArrayList <Persona> catalogoPersone){
+
+        String tesseraFake;
+
+        System.out.println("Inserisci l'id della tessera bibilioteca: ");
+        tesseraFake = keyboard.nextLine();
+
+        for(Persona persona : catalogoPersone){
+            if(persona.getTesseraBiblioteca().equals(tesseraFake)){
+                for(Libro libro : scaffale){
+                    if(libro.isVenduto()){
+                        System.out.println(libro.toString());
+                    }
+                }
+            }
+        }
+
 
     }
 
