@@ -1,5 +1,6 @@
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * La classe Commesso rappresenta un commesso in una di libreria. Gestisce le informazioni personali
@@ -121,20 +122,25 @@ public class Commesso {
 
 
     /**
-     * Metodo privato che cancella un libro dallo scaffale in base al titolo fornito dall'utente
+     * Metodo publico che cancella un libro dallo scaffale in base al titolo fornito dall'utente
      *
      * @param scaffale Un array di oggetti di tipo Libro che rappresenta lo scaffale dei libri
-     * @param input scanner che legge i dati in input
+     * @param keyboard scanner che legge i dati in input
      */
-    private static void CancellaLibro(Libro[] scaffale, Scanner input) {
-        String titolo;
-        System.out.println("Inserisci il titolo del libro da cancellare");
-        titolo = input.nextLine();
-        for (int i = 0; i < scaffale.length; i++) {
-            if (scaffale[i].getTitolo().equals(titolo)) {
-                scaffale[i] = null;
+    public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard){
+
+        String isbnFittizzio;
+
+        System.out.println("Inserisci l'isbn del libro");
+        isbnFittizzio = keyboard.next();
+
+        for(Libro libro : scaffale){
+
+            if(libro.getIsbn().equals(isbnFittizzio)){
+                scaffale.remove(libro);
             }
         }
+
     }
 
     /**
@@ -143,30 +149,14 @@ public class Commesso {
      *
      * @param scaffale Un array di oggetti di tipo Libro che rappresenta lo scaffale dei libri
      */
-    private static void saldo(Libro[] scaffale) {
+    public static void saldoTotale(ArrayList<Libro> scaffale) {
         double saldo = 0;
-        for (int i = 0; i < scaffale.length; i++) {
-            if (scaffale[i].isVenduto()) {
-                System.out.println("Questo libro è stato venduto");
-                System.out.println(scaffale[i]);
-                saldo = saldo + scaffale[i].getPrezzo();
+        for(Libro libro : scaffale){
+            if (libro.isVenduto()){
+                saldo += libro.getPrezzo();
             }
         }
         System.out.println("Saldo attuale " + saldo);
-    }
-
-    /**
-     * Metodo che visualizza i libri prestati a tutte le persone registrate nel catalogo
-     * Questo metodo è ancora da implementare
-     *
-     * @param catalogoPersone Un array di oggetti di tipo Persona che rappresentano il catalogo delle persone
-     */
-    public static void visualizzaLibriPrestatiATutti(Persona[] catalogoPersone) {
-        for (int i = 0; i<catalogoPersone.length; i++){
-            if (catalogoPersone[i].isPrestato()){
-                System.out.println(catalogoPersone[i]);
-            }
-        }
     }
 
 }
