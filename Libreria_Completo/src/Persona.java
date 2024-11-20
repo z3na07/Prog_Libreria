@@ -317,17 +317,17 @@ public class Persona
      */
     public static boolean accedi(ArrayList <Persona> catalogoPersone, Scanner scanner)
     {
-        String name, pass;
+        String tesser, pass;
 
         System.out.println("Inserisci l'id della tessera bibilioteca: ");
-        name = scanner.nextLine();
+        tesser = scanner.nextLine();
 
         System.out.println("Inserisci la password");
         pass = scanner.nextLine();
 
         for (Persona persona : catalogoPersone)
         {
-            if (persona.nome.equals(name))
+            if (persona.tesseraBiblioteca.equals(tesser))
             {
                 if (persona.password.equals(pass))
                 {
@@ -347,24 +347,56 @@ public class Persona
      * @param keyboard Scanner che legge i dati in input
      * @param catalogoPersone {@code ArrayList} di tipo {@code Persona} con al suo interno tutti le persone che hanno effetuato la registrazione alla Libreria
      * */
-    public static void visualizzaCarrello(ArrayList<Libro> scaffale, Scanner keyboard, ArrayList <Persona> catalogoPersone){
+    public static void visualizzaCarrello(ArrayList<Libro> scaffale, Scanner keyboard, ArrayList <Persona> catalogoPersone, boolean carrrelllo){
 
         String tesseraFake;
+
 
         System.out.println("Inserisci l'id della tessera bibilioteca: ");
         tesseraFake = keyboard.nextLine();
 
+
         for(Persona persona : catalogoPersone){
             if(persona.getTesseraBiblioteca().equals(tesseraFake)){
-                for(Libro libro : scaffale){
-                    if(libro.isVenduto()){
-                        System.out.println(libro.toString());
+                if(!carrrelllo){
+                    System.out.println("Il carrello è vuoto");
+                    break;
+                }else {
+                    for (Libro libro : scaffale) {
+                        if (libro.isVenduto()) {
+                            System.out.println(libro.toString());
+                        }
                     }
                 }
             }
         }
 
 
+    }
+
+
+    /**
+     * Metodo per il pagamento nei libri del carrello
+     *
+     * @param contotot Il conto finale, ovvero la somma di tutti i prezzi dei Libri messi nel carrello
+     * @param keyboard Scanner che legge i dati in input
+     *
+     * @return il metodo ritorna il conto totale azzerato se l'utente ha pagato
+     * */
+    public static double pagamento(double contotot, Scanner keyboard){
+
+        String conferma;
+
+        System.out.println("Conto totale da pagare: "+contotot);
+        System.out.println("Inserisci si per pagare, inserisci no per uscire");
+        conferma = keyboard.nextLine();
+        if(conferma.equalsIgnoreCase("si")) {
+
+            System.out.println("IMPORTO PAGATO");
+
+            contotot = 0;
+        }
+        return contotot;
     }
 
 
