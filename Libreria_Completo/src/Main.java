@@ -31,18 +31,20 @@ public class Main
 
 
         String[] opzioniLogin = {"MENU", "Registrati", "entrata cliente", "entrata commesso", "uscita"};
-        String[] opzioniCom = {"BIBLIOTECA", "Inserisci Libro", "Visualizza scaffale", "Rimuovi Libro", "", "uscita"};
-        String[] opzioniUtente = {"MENU", "Acquista libro", "Visualizza carrello", "Visualizza il catalogo","Visualizza dati utente", "uscita"};
+        String[] opzioniCom = {"BIBLIOTECA", "Inserisci Libro", "Visualizza scaffale", "Rimuovi Libro", "Visualizza saldo totale", "cerca libro", "uscita"};
+        String[] opzioniUtente = {"MENU", "Acquista libro", "Visualizza carrello", "Visualizza il catalogo","Visualizza dati utente","Procedi al pagamento", "uscita"};
 
         //dichiarazioni boolean
         boolean fineCommesso = true;
         boolean fineLogin = true;
         boolean fine = true;
+        boolean carrrelllo = false;
 
         //dichiarazione variabili intere
         int contPersone = 0;
         int indice = 0;
         String tesseraFake;
+        double contoTot = 0;
 
 
         //creazione dei libri di defaul da metter di base nell'array list scaffale
@@ -85,17 +87,20 @@ public class Main
                                     }
                                     else
                                     {
+
                                         System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
                                         Utility.Wait(3);
                                         System.out.println("Il libro verrà messo nel carrello ");
                                         scaffale.get(indice).setVenduto(true);
+                                        carrrelllo = true;
+                                        contoTot += scaffale.get(indice).getPrezzo();
                                     }
                                 }
                                 break;
 
                             case 2:
 
-                                Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone);
+                                Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone, carrrelllo);
 
                                 break;
 
@@ -111,6 +116,14 @@ public class Main
                                 break;
 
                             case 5:
+                                if(contoTot == 0){
+                                    System.out.println("non hai nulla da pagare");
+                                }else {
+                                    Persona.pagamento(contoTot, keyboard);
+                                }
+                                break;
+
+                            case 6:
 
                                 //esci dallo switch case
                                 fine = false;
@@ -122,17 +135,75 @@ public class Main
 
                 //CASE 2 DELLO SWITCH PRINCIPALE
                 case 2:
-                    //accesso cliente
+                    //accesso cliente, controllare case 4 dello switch perchè esce dal menu
                     if (Persona.accedi(catalogoPersone, keyboard))
                     {
                         System.out.println("Accesso eseguito corretamente \n");
-                        fineLogin = false;
+                        //fineLogin = false;
+
+                        do {
+                            switch (Utility.Menu(opzioniUtente, keyboard))
+                            {
+                                case 1:
+                                    //acquista libro
+                                    if (scaffale.isEmpty())
+                                    {
+                                        System.out.println("Non ci sono libri da acquistare");
+                                    } else
+                                    {
+                                        if(Libro.ricerca(scaffale, keyboard, indice) == -1)
+                                        {
+                                            System.out.println("Il libro non è presente nel catalogo ");
+                                        }
+                                        else
+                                        {
+
+                                            System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
+                                            Utility.Wait(3);
+                                            System.out.println("Il libro verrà messo nel carrello ");
+                                            scaffale.get(indice).setVenduto(true);
+                                            contoTot += scaffale.get(indice).getPrezzo();
+                                        }
+                                    }
+                                    break;
+
+                                case 2:
+
+                                    Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone, carrrelllo);
+
+                                    break;
+
+                                case 3:
+                                    //visualizza il catalogo
+                                    Libro.visualizzaScaffale(scaffale);
+                                    break;
+
+                                case 4:
+                                    //visualizza dati dell'utente
+                                    Persona.visualizzaDatiUtente(catalogoPersone, keyboard);
+                                    break;
+
+                                case 5:
+                                    if(contoTot == 0){
+                                        System.out.println("non hai nulla da pagare");
+                                    }else {
+                                        Persona.pagamento(contoTot, keyboard);
+                                    }
+                                    break;
+
+                                case 6:
+
+                                    //esci dallo switch case
+                                    fine = false;
+                                    break;
+                            }
+                        } while (fine);
                     } else
                     {
                         System.out.println("Nome utente o password errata");
                     }
 
-                    //esci dallo switch login per andare allo switch del menù
+
 
                     break;
 
@@ -145,7 +216,41 @@ public class Main
 
                     if(passwordRapida.equals(commesso.getPassword()))
                     {
-                        //CASEW ENORME
+                        //switch case che permetterà l'utilizzo el softwere dopo il login DEL COMMESSO
+                        do {
+                            switch (Utility.Menu(opzioniCom, keyboard)) {
+                                case 1:
+                                    //inserimento libro
+                                    Libro libroMomentaneo = new Libro();
+                                    libroMomentaneo = Libro.inserisciLibro(keyboard);
+                                    scaffale.add(libroMomentaneo);
+
+                                    break;
+
+                                case 2:
+                                    Libro.visualizzaScaffale(scaffale);
+                                    break;
+
+                                case 3:
+                                    Commesso.rimuoviLibro(scaffale, keyboard);
+                                    break;
+
+                                case 4:
+                                    Commesso.saldoTotale(scaffale);
+                                    break;
+
+                                case 5:
+                                    if(Libro.ricerca(scaffale, keyboard, indice) != -1){
+                                        System.out.println("Il libro è presente");
+                                    }
+                                    break;
+
+                                case 6:
+                                    //esci dallo switch case
+                                    fineCommesso = false;
+                                    break;
+                            }
+                        } while (fineCommesso);
                     }
                     break;
 
@@ -159,58 +264,6 @@ public class Main
 
 
 
-
-        //switch case che permetterà l'utilizzo el softwere dopo il login DEL COMMESSO
-        do {
-            switch (Utility.Menu(opzioniCom, keyboard)) {
-                case 1:
-                    //inserimento libro
-                    Libro libroMomentaneo = new Libro();
-                    libroMomentaneo = Libro.inserisciLibro(keyboard);
-                    scaffale.add(libroMomentaneo);
-
-                    break;
-
-                case 2:
-                    Libro.visualizzaScaffale(scaffale);
-                    break;
-
-                case 3:
-                    Libro.rimuoviLibro(scaffale, keyboard);
-                    break;
-
-                case 4:
-                    break;
-
-                case 6:
-                    //esci dallo switch case
-                    fineCommesso = false;
-                    break;
-            }
-        } while (fineCommesso);
-
-
-        /*
-        * import java.util.Random;
-
-public class RandomStringGenerator {
-    public static String generateRandomString(int length) {
-
-        //altre stringhe possibili: ABCDEFGHIJKLMNOPQRSTUVWXYZ
-        // Definisci l'insieme di caratteri
-        String characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuilder randomString = new StringBuilder();
-
-        // Genera una stringa casuale
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(characters.length());
-            randomString.append(characters.charAt(index));
-        }
-
-        return randomString.toString();
-    }
-}*/
 
 
 
