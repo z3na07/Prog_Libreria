@@ -321,21 +321,6 @@ public class Libro
 
 
 
-    public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard){
-
-        String isbnFittizzio;
-
-        System.out.println("Inserisci l'isbn del libro");
-        isbnFittizzio = keyboard.next();
-
-        for(Libro libro : scaffale){
-
-            if(libro.getIsbn().equals(isbnFittizzio)){
-                scaffale.remove(libro);
-            }
-        }
-
-    }
 
 
 
