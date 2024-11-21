@@ -272,10 +272,13 @@ public class Libro
         {
             System.out.println("Inserisci l'autore del libro");
             libro.setAutore(input.nextLine());
+
         } while (libro.autore.matches(".*\\d.*"));
 
-        while (true) {
-            try {
+        while (true)
+        {
+            try
+            {
                 System.out.println("Inserisci il prezzo del Libro");
                 libro.setPrezzo(Double.parseDouble(input.next()));
                 break;
@@ -290,12 +293,12 @@ public class Libro
             System.out.println("Inserisci ISBN del libro");
             libro.setIsbn(input.nextLine());
 
-        } while (libro.getIsbn().length() != 12);
+        } while (libro.getIsbn().length() == 12);
 
         System.out.println("Inserisci l'editore del libro");
         libro.setEditore(input.nextLine());
 
-        System.out.println("Di che tipo è il tuo romanzo");
+        System.out.println("Di che tipo è il tuo libro");
         switch (Utility.Menu(tipoG, input)) {
             case 1 -> libro.setTipo(genere.romanzo);
             case 2 -> libro.setTipo(genere.manuale);
@@ -318,12 +321,6 @@ public class Libro
             System.out.println(libro);
         }
     }
-
-
-
-
-
-
 
 
 }
