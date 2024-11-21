@@ -127,18 +127,17 @@ public class Commesso {
      * @param scaffale Un array di oggetti di tipo Libro che rappresenta lo scaffale dei libri
      * @param keyboard scanner che legge i dati in input
      */
-    public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard){
+    public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard)
+    {
+        System.out.println("Inserisci l'ISBN del libro da rimuovere:");
+        String isbnFittizio = keyboard.nextLine();
 
-        String isbnFittizzio;
+        boolean rimosso = scaffale.removeIf(libro -> libro.getIsbn().equals(isbnFittizio));
 
-        System.out.println("Inserisci l'isbn del libro");
-        isbnFittizzio = keyboard.next();
-
-        for(Libro libro : scaffale){
-
-            if(libro.getIsbn().equals(isbnFittizzio)){
-                scaffale.remove(libro);
-            }
+        if (rimosso) {
+            System.out.println("Libro rimosso con successo.");
+        } else {
+            System.out.println("Nessun libro trovato con l'ISBN fornito.");
         }
 
     }
