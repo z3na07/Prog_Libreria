@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 //import java.time.LocalDate;
@@ -18,13 +19,12 @@ public class Main
      *
      * @param args argomenti da riga di comando, che vengono passati all'applicazione al momento dell'esecuzione.
      *
-     * @version beta
+     * @version
      * */
 
     public static void main(String[] args)
     {
         Scanner keyboard = new Scanner(System.in);
-        Random random  = new Random();
 
         ArrayList<Persona> catalogoPersone = new ArrayList<>();
         ArrayList<Libro> scaffale = new ArrayList<>();
@@ -35,37 +35,41 @@ public class Main
         String[] opzioniUtente = {"MENU", "Acquista libro", "Visualizza carrello", "Visualizza il catalogo","Visualizza dati utente","Procedi al pagamento", "uscita"};
 
         //dichiarazioni boolean
-        boolean fineCommesso = true;
-        boolean fineLogin = true;
+        boolean fineCommesso;
+        boolean fineLogin;
         boolean fine = true;
         boolean carrrelllo = false;
 
         //dichiarazione variabili intere
         int contPersone = 0;
         int indice = 0;
-        String tesseraFake;
         double contoTot = 0;
 
 
         //creazione dei libri di defaul da metter di base nell'array list scaffale
         Libro petrarca = new Libro("1234", "Enaudi", "Il Canzoniere ", 14, false, "Petrarca");
         Libro boccaccio = new Libro("1738", "Giunti", "Il Decameron", 15, false, "Boccaccio");
-        Libro dante = new Libro("1890", "Mondadori", "La Divina Commedia", 50, false, "Dante");
+        Libro dante = new Libro("1890", "Zanichelli", "La Divina Commedia", 50, false, "Dante");
         Libro manzoni = new Libro("900", "Feltrinelli", "I Promessi Sposi", 16, false, "Manzoni");
+        Libro bulgakov = new Libro("1500", "Trecani","Il Maestro e Margherita",12, false, "Bulgakov");
+        Libro riordan = new Libro("456", "Mondadori", "Percy Jackson e gli dei dell'olimpo", 11, false, "Riordan");
 
         scaffale.add(petrarca);
         scaffale.add(boccaccio);
         scaffale.add(dante);
         scaffale.add(manzoni);
+        scaffale.add(bulgakov);
+        scaffale.add(riordan);
 
         do
         {
+            fineLogin = true;
             switch (Utility.Menu(opzioniLogin, keyboard))
             {
                 case 1:
                     //registrazione utente
 
-                    Persona nuovoUtente = new Persona();
+                    Persona nuovoUtente;
                     nuovoUtente = Persona.registrati(keyboard);
                     catalogoPersone.add(nuovoUtente);
 
@@ -116,9 +120,12 @@ public class Main
                                 break;
 
                             case 5:
-                                if(contoTot == 0){
+
+                                if(contoTot == 0)
+                                {
                                     System.out.println("non hai nulla da pagare");
-                                }else {
+                                }else
+                                {
                                     Persona.pagamento(contoTot, keyboard);
                                 }
                                 break;
@@ -141,7 +148,10 @@ public class Main
                         System.out.println("Accesso eseguito corretamente \n");
                         //fineLogin = false;
 
-                        do {
+                        do
+                        {
+                            fine = true;
+
                             switch (Utility.Menu(opzioniUtente, keyboard))
                             {
                                 case 1:
@@ -160,6 +170,7 @@ public class Main
 
                                             System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
                                             Utility.Wait(3);
+
                                             System.out.println("Il libro verrà messo nel carrello ");
                                             scaffale.get(indice).setVenduto(true);
                                             contoTot += scaffale.get(indice).getPrezzo();
@@ -170,23 +181,27 @@ public class Main
                                 case 2:
 
                                     Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone, carrrelllo);
-
                                     break;
 
                                 case 3:
+
                                     //visualizza il catalogo
                                     Libro.visualizzaScaffale(scaffale);
                                     break;
 
                                 case 4:
+
                                     //visualizza dati dell'utente
                                     Persona.visualizzaDatiUtente(catalogoPersone, keyboard);
                                     break;
 
                                 case 5:
-                                    if(contoTot == 0){
+
+                                    if(contoTot == 0)
+                                    {
                                         System.out.println("non hai nulla da pagare");
-                                    }else {
+                                    }else
+                                    {
                                         Persona.pagamento(contoTot, keyboard);
                                     }
                                     break;
@@ -202,9 +217,6 @@ public class Main
                     {
                         System.out.println("Nome utente o password errata");
                     }
-
-
-
                     break;
 
                 case 3:
@@ -216,12 +228,16 @@ public class Main
 
                     if(passwordRapida.equals(commesso.getPassword()))
                     {
-                        //switch case che permetterà l'utilizzo el softwere dopo il login DEL COMMESSO
-                        do {
-                            switch (Utility.Menu(opzioniCom, keyboard)) {
+                        //switch case che permetterà l'utilizzo del software dopo il login DEL COMMESSO
+                        do
+                        {
+                            fineCommesso = true;
+
+                            switch (Utility.Menu(opzioniCom, keyboard))
+                            {
                                 case 1:
                                     //inserimento libro
-                                    Libro libroMomentaneo = new Libro();
+                                    Libro libroMomentaneo;
                                     libroMomentaneo = Libro.inserisciLibro(keyboard);
                                     scaffale.add(libroMomentaneo);
 
@@ -261,10 +277,6 @@ public class Main
                     break;
             }
         } while (fineLogin);
-
-
-
-
 
 
     }
