@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -14,10 +14,7 @@ public class Persona
     private String nome;
     private boolean prestato;
     private String tesseraBiblioteca;
-
-    //dovrà essere un valore costante
-    private int durataDelPrestito;
-    //decidete se aggiungere prenota come attributo
+    private String libriComprati;
     private String password;
 
 
@@ -59,6 +56,27 @@ public class Persona
                 ,nome, tesseraBiblioteca);
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof Persona persona))
+            return false;
+
+        return isPrestato() == persona.isPrestato() && Objects.equals(getNome(), persona.getNome())
+                && Objects.equals(getTesseraBiblioteca(), persona.getTesseraBiblioteca())
+                && Objects.equals(libriComprati, persona.libriComprati)
+                && Objects.equals(getPassword(), persona.getPassword());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getNome(), isPrestato(), getTesseraBiblioteca(), libriComprati, getPassword());
+    }
+
     /**
      * Questo metodo è un **getter** che permette di accedere al valore del nome associata all'utente.
      *
@@ -77,6 +95,25 @@ public class Persona
     public void setNome(String nome)
     {
         this.nome = nome;
+    }
+
+    /**
+     * Questo metodo è un getter che permette di accedere al valore dell'array libricomprati
+     *
+     * @return l'isbn dei libri comprati
+     * */
+    public String getlibriComprati()
+    {
+        return libriComprati;
+    }
+
+    /**
+     * Questo metodo setter che imposta i libri comprati
+     * @param lipriComprati array di stringhe che passiamo al metodo
+     */
+    public void setlibriComprati(String lipriComprati)
+    {
+        this.libriComprati = lipriComprati;
     }
 
     /**
@@ -122,49 +159,6 @@ public class Persona
         this.tesseraBiblioteca = tesseraBiblioteca;
     }
 
-    /**
-     * Restituisce la durata del prestito dell'utente.
-     *
-     * Questo metodo è un **getter** che permette di accedere al valore della durata del prestito associata all'utente.
-     *
-     * @return la durata del prestito.
-     */
-    public int getDurataDelPrestito()
-    {
-        return durataDelPrestito;
-    }
-
-    /**
-     * Imposta la durata del prestito dell'utente.
-     * Questo metodo è un **setter** che permette di associare una data di inizio prestito all'utente.
-     *
-     * @param durataDelPrestito dato che passiamo al metodo
-     *
-     */
-    public void setDurataDelPrestito(int durataDelPrestito)
-    {
-        this.durataDelPrestito = durataDelPrestito;
-    }
-
-    /*public String getDataInizioPrestito()
-    {
-        return dataInizioPrestito;
-    }
-
-    public void setDataInizioPrestito(String dataInizioPrestito)
-    {
-        this.dataInizioPrestito = dataInizioPrestito;
-    }
-
-    public String getDataFinePrestito()
-    {
-        return dataFinePrestito;
-    }
-
-    public void setDataFinePrestito(String dataFinePrestito)
-    {
-        this.dataFinePrestito = dataFinePrestito;
-    }*/
 
     /**
      * Restituisce la password dell'utente.
@@ -187,53 +181,6 @@ public class Persona
     public void setPassword(String password)
     {
         this.password = password;
-    }
-
-
-     /*
-     * Metodo che permette l'accesso a i metodi sottostanti per poter visualizzare i propri dati personali sui libri
-     *
-     * @param catalogoPersone Arraylist di tipo Persona
-     * @param utente1 oggetto di tipo persona che interpreta l'utente
-     *
-     * @return in base alla tessera restituisce l'utente o un messaggio di errore
-     */
-/*    public static String permessoDiUtilizzo(ArrayList <Persona> catalogoPersone, Persona utente1)
-    {
-        //fai inserire da main la TesseraBiblioteca
-        for(int i=0; i < catalogoPersone.size(); i++)
-        {
-            if(catalogoPersone.get(i).tesseraBiblioteca.equalsIgnoreCase(utente1.tesseraBiblioteca))
-            {
-                return "Bentoranto utente: "+ utente1.nome;
-            }
-        }
-        return "La tessera della biblioteca inserita non è corretta ";
-    }
-*/
-
-    /**
-     * Metodo che visualizza se l'utente ha libri presi in prestito, prima di fare ciò vediamo se ha la TesseraBiblioteca
-     *
-     * @param catalogoPersone Arraylist di tipo Persona
-     *
-     */
-
-
-
-    /**
-     * Inserendo da tessera da biblioteca, controllando se possiede un libro in prestito, se si allora si visualizza quando è iniziato il prestito
-     *
-     * (Non utilizzato/finito, per tanto non completo)
-     *
-     * @param catalogoPersone Arraylist di tipo Persona
-     *
-     */
-    public static void visualizzaTempoRimastoDelPrestito(Persona [] catalogoPersone)
-    {
-
-
-
     }
 
     /**
@@ -259,13 +206,6 @@ public class Persona
         }
 
     }
-
-    /**
-     * Metodo che la persona può utilizzare per vedere quanti libri ha in prestito al momento
-     *
-     * @param catalogoPersone Arraylist di tipo Persona
-     */
-
 
     /**
      * Metodo di tipo "Persona " che crea le credenziali del cliente per il primo accesso al softwere facendo inserier i parametri utili tra cui il nome e la password.
@@ -347,30 +287,40 @@ public class Persona
      * @param keyboard Scanner che legge i dati in input
      * @param catalogoPersone {@code ArrayList} di tipo {@code Persona} con al suo interno tutti le persone che hanno effetuato la registrazione alla Libreria
      * */
-    public static void visualizzaCarrello(ArrayList<Libro> scaffale, Scanner keyboard, ArrayList <Persona> catalogoPersone, boolean carrrelllo){
-
+    public static void visualizzaCarrello(ArrayList<Libro> scaffale, Scanner keyboard, ArrayList <Persona> catalogoPersone, boolean carrrelllo)
+    {
         String tesseraFake;
-
 
         System.out.println("Inserisci l'id della tessera bibilioteca: ");
         tesseraFake = keyboard.nextLine();
 
-
-        for(Persona persona : catalogoPersone){
-            if(persona.getTesseraBiblioteca().equals(tesseraFake)){
-                if(!carrrelllo){
+        for(Persona persona : catalogoPersone)
+        {
+            if(persona.getTesseraBiblioteca().equals(tesseraFake))
+            {
+                if(!carrrelllo)
+                {
                     System.out.println("Il carrello è vuoto");
                     break;
-                }else {
-                    for (Libro libro : scaffale) {
-                        if (libro.isVenduto()) {
+
+                }else
+                {
+                    //PER STAMPARE IL CARRELLO BISOGNA VEDERE CHE VENGA STAMPATO SOLO QUELLO DELLA PERSONA CON TESSERA DA BIBLIOTECA CORRETTA
+                    for (Libro libro : scaffale)
+                    {
+                        //cerca l'indice della persona corretta che nel flag "libriVenduti" ha salvato l'isbn dei libri che deve stampare
+
+                        //DA CONTROLLARE QUESTO PEZZO DI CODIDE E DA INSERIRE NELL'IF SOTTOSTANTE
+                        //&& libro.getIsbn().equals(scaffale.getlibriComprati)
+
+                        if (libro.isVenduto())
+                        {
                             System.out.println(libro.toString());
                         }
                     }
                 }
             }
         }
-
 
     }
 
@@ -398,7 +348,6 @@ public class Persona
         }
         return contotot;
     }
-
 
 
 }
