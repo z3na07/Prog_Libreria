@@ -7,8 +7,9 @@ import java.util.ArrayList;
 enum genere {romanzo, manuale, enciclopedia, fumetto};
 /**
  * Classe che gestisce tutte le azioni sullo scaffale e sui libri stessi sia appena creati che quelli gia all'interno di scaffale
+ *
  * @author Leonardo (z3na07)
- * @version beta
+ * @version 1
  * */
 public class Libro
 {
@@ -234,7 +235,14 @@ public class Libro
         return Double.compare(prezzo, libro.prezzo) == 0 && venduto == libro.venduto && Objects.equals(isbn, libro.isbn) && Objects.equals(editore, libro.editore) && Objects.equals(titolo, libro.titolo) && Objects.equals(autore, libro.autore) && tipo == libro.tipo;
     }
 
-    //DA DOCUMENTARE IN JAVADOC
+    /**
+     * Restituisce un valore hash per questo oggetto.
+     * Questo metodo calcola un valore hash basato sui campi significativi
+     * della classe {@code Libro}.
+     * Oggetti uguali (secondo il metodo {@code equals}) devono restituire lo stesso valore hash.
+     *
+     * @return il valore hash di questo oggetto
+     */
     @Override
     public int hashCode()
     {
@@ -259,9 +267,6 @@ public class Libro
             if (libro.isbn.equalsIgnoreCase(isbnMomentaneo))
             {
                 indice = scaffale.indexOf(libro);
-                //libro.setIndiceDiPersonaCheHaConprato();
-
-
                 return indice;
             }
         }
