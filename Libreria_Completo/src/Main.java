@@ -74,11 +74,11 @@ public class Main
                     nuovoUtente.setIndicePosizione(indiceVolatile);
                     catalogoPersone.add(nuovoUtente);
 
-                    indiceVolatile++;
-
                     //ENTRATA NEL MENU DELL'UTENTE TRAMITE UNO SWITCH CASE
                     //switch case che permetterà l'utilizzo el softwere dopo il login DEL CLIENTE
                     do {
+                        fine = true;
+
                         switch (Utility.Menu(opzioniUtente, keyboard))
                         {
                             case 1:
@@ -94,12 +94,14 @@ public class Main
                                     }
                                     else
                                     {
-
                                         System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
                                         Utility.Wait(3);
 
                                         System.out.println("Il libro verrà messo nel carrello ");
                                         scaffale.get(indice).setVenduto(true);
+
+                                        //imposta l'attributo indiceDiPersonaCheHaComprato al numero corrispondente dato da indiceVolatile
+                                        scaffale.get(indice).setIndiceDiPersonaCheHaConprato(indiceVolatile);
                                         carrrelllo = true;
                                         contoTot += scaffale.get(indice).getPrezzo();
                                     }
@@ -107,7 +109,7 @@ public class Main
                                 break;
 
                             case 2:
-
+                                //visualizza il carrello
                                 Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone, carrrelllo);
 
                                 break;
@@ -142,6 +144,9 @@ public class Main
                         }
                     } while (fine);
 
+                    //incremento della posizione da salvare negli attributi di libro e persona
+                    indiceVolatile++;
+                    //break del primo case principale
                     break;
 
                 //CASE 2 DELLO SWITCH PRINCIPALE
