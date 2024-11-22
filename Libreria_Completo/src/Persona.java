@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Questa classe fornisce metodi per ottenere e modificare le informazioni di tale soggetto.
  *
  * @author Martino (Hallo5685)
- * @version beta
+ * @version 1
  */
 public class Persona
 {
@@ -56,6 +56,15 @@ public class Persona
                 ,nome, tesseraBiblioteca);
     }
 
+
+    /**
+     * Determina se un altro oggetto è "uguale" a this.
+     * Questo metodo confronta l'oggetto corrente con un altro oggetto per verificarne l'uguaglianza.
+     *
+     * @param o l'oggetto da confrontare con this
+     *
+     * @return {@code true} se l'oggetto specificato è uguale a questo, {@code false} altrimenti
+     */
     @Override
     public boolean equals(Object o)
     {
@@ -69,6 +78,15 @@ public class Persona
                 && Objects.equals(getTesseraBiblioteca(), persona.getTesseraBiblioteca())
                 && Objects.equals(getPassword(), persona.getPassword());
     }
+
+    /**
+     * Restituisce un valore hash per questo oggetto.
+     * Questo metodo calcola un valore hash basato sui campi significativi
+     * della classe {@code Persona}, inclusi nome, stato di prestito, tessera biblioteca e password.
+     * Oggetti uguali (secondo il metodo {@code equals}) devono restituire lo stesso valore hash.
+     *
+     * @return il valore hash di questo oggetto
+     */
 
     @Override
     public int hashCode()
@@ -174,7 +192,6 @@ public class Persona
 
     /**
      * Imposta la password dell'utente.
-     *
      * Questo metodo è un **setter** che permette di associare una password all'utente.
      *
      * @param password la stringa che passiamo al metodo
@@ -307,14 +324,8 @@ public class Persona
 
                 }else
                 {
-                    //PER STAMPARE IL CARRELLO BISOGNA VEDERE CHE VENGA STAMPATO SOLO QUELLO DELLA PERSONA CON TESSERA DA BIBLIOTECA CORRETTA
                     for (Libro libro : scaffale)
                     {
-                        //cerca l'indice della persona corretta che nel flag "libriVenduti" ha salvato l'isbn dei libri che deve stampare
-
-                        //DA CONTROLLARE QUESTO PEZZO DI CODIDE E DA INSERIRE NELL'IF SOTTOSTANTE
-                        //&& libro.getIsbn().equals(scaffale.getlibriComprati)
-
                         if (libro.isVenduto() && libro.getIndiceDiPersonaCheHaConprato() == persona.indicePosizione)
                         {
                             System.out.println(libro.toString());
@@ -343,7 +354,8 @@ public class Persona
         System.out.println("Inserisci si per pagare, inserisci no per uscire");
         conferma = keyboard.nextLine();
 
-        if(conferma.equalsIgnoreCase("si")) {
+        if(conferma.equalsIgnoreCase("si"))
+        {
 
             System.out.println("IMPORTO PAGATO");
 
