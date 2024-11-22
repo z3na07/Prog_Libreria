@@ -41,8 +41,8 @@ public class Main
         boolean carrrelllo = false;
 
         //dichiarazione variabili intere
-        int contPersone = 0;
         int indice = 0;
+        int indiceVolatile = 0;
         double contoTot = 0;
 
 
@@ -71,7 +71,10 @@ public class Main
 
                     Persona nuovoUtente;
                     nuovoUtente = Persona.registrati(keyboard);
+                    nuovoUtente.setIndicePosizione(indiceVolatile);
                     catalogoPersone.add(nuovoUtente);
+
+                    indiceVolatile++;
 
                     //ENTRATA NEL MENU DELL'UTENTE TRAMITE UNO SWITCH CASE
                     //switch case che permetterà l'utilizzo el softwere dopo il login DEL CLIENTE
@@ -94,6 +97,7 @@ public class Main
 
                                         System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
                                         Utility.Wait(3);
+
                                         System.out.println("Il libro verrà messo nel carrello ");
                                         scaffale.get(indice).setVenduto(true);
                                         carrrelllo = true;
