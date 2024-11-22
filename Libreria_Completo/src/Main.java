@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Contiene il metodo "main" che viene eseguito all'avvio del programma.
  *
  * @author Martino (Hallo5685), Leonardo (z3na07), Mattia (programmatoresperto)
- * @version beta
+ * @version 1
  */
 
 public class Main
@@ -19,7 +19,6 @@ public class Main
      *
      * @param args argomenti da riga di comando, che vengono passati all'applicazione al momento dell'esecuzione.
      *
-     * @version
      * */
 
     public static void main(String[] args)
