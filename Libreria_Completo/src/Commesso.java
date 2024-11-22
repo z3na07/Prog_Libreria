@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * per l'elaborazione di operazioni legate ai libri (ad esempio, inserimento, cancellazione, saldo)
  *
  * @author Mattia (programmatoresperto)
- * @version beta
+ * @version 1
  */
 public class Commesso {
 
@@ -71,14 +71,16 @@ public class Commesso {
      *
      * @param cognome Il nuovo cognome del commesso
      */
-    public void setCognome(String cognome) {
+    public void setCognome(String cognome)
+    {
         this.cognome = cognome;
     }
 
     /**
      * Costruttore vuoto che inizializza nome e cognome a null
      */
-    public Commesso() {
+    public Commesso()
+    {
         nome = null;
         cognome = null;
     }
@@ -90,14 +92,15 @@ public class Commesso {
      * @return Una stringa che rappresenta il commesso
      */
     @Override
-    public String toString() {
-        return String.format(" nome: %s, cognome: %s" + nome + cognome + password);
+    public String toString()
+    {
+        return String.format(" nome: %s, cognome: %s", nome,cognome);
     }
 
 
 
     /**
-     *  Confronta due oggetti tra loro sfruttando i loro parametri
+     *  Ovverride del metodo equals, confronta due oggetti tra loro sfruttando i loro parametri
      *
      *  @return {@code true} se gli oggetti sono uguali {@code false} altrimenti
      */
@@ -124,7 +127,7 @@ public class Commesso {
     /**
      * Metodo publico che cancella un libro dallo scaffale in base al titolo fornito dall'utente
      *
-     * @param scaffale Un array di oggetti di tipo Libro che rappresenta lo scaffale dei libri
+     * @param scaffale {@code ArrayList} di tipo {@code Libro} che rappresenta lo scaffale dei libri
      * @param keyboard scanner che legge i dati in input
      */
     public static void rimuoviLibro(ArrayList <Libro> scaffale, Scanner keyboard)
@@ -146,9 +149,10 @@ public class Commesso {
      * Metodo privato che calcola e visualizza il saldo totale dei libri venduti
      * Somma i prezzi dei libri venduti e li mostra all'utente
      *
-     * @param scaffale Un array di oggetti di tipo Libro che rappresenta lo scaffale dei libri
+     * @param scaffale {@code ArrayList}  di tipo {@code  Libro} che rappresenta lo scaffale dei libri
      */
-    public static void saldoTotale(ArrayList<Libro> scaffale) {
+    public static void saldoTotale(ArrayList<Libro> scaffale)
+    {
         double saldo = 0;
         for(Libro libro : scaffale){
             if (libro.isVenduto()){
