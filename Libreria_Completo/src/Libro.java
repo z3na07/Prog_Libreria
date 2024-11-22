@@ -175,6 +175,26 @@ public class Libro
         this.tipo = tipo;
     }
 
+    /**
+     * Metodo get dell'attributo indiceDiPersonaCheHaConprato
+     *
+     * @return ritorna l'indice della persona che ha comprato il libro
+     * */
+    public int getIndiceDiPersonaCheHaConprato()
+    {
+        return indiceDiPersonaCheHaConprato;
+    }
+
+    /**
+     * Metodo set dell'attributo indiceDiPersonaCheHaConprato
+     *
+     * @param indiceDiPersonaCheHaConprato attributo che salva l'indice della persona che ha comprato un determinato libro
+     * */
+    public void setIndiceDiPersonaCheHaConprato(int indiceDiPersonaCheHaConprato)
+    {
+        this.indiceDiPersonaCheHaConprato = indiceDiPersonaCheHaConprato;
+    }
+
     //vari attributi
     private String isbn;
     private String editore;
@@ -183,7 +203,7 @@ public class Libro
     private boolean venduto;
     private String autore;
     private genere tipo;
-
+    private int indiceDiPersonaCheHaConprato;
 
     /**
      * Override del metodo toString
@@ -239,7 +259,8 @@ public class Libro
             if (libro.isbn.equalsIgnoreCase(isbnMomentaneo))
             {
                 indice = scaffale.indexOf(libro);
-                //fai in modo che esista un modo per salvare un massimo di 3 libri in un "carrello" che rispode all'utente
+                //libro.setIndiceDiPersonaCheHaConprato();
+
 
                 return indice;
             }
