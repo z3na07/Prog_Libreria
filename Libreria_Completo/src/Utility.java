@@ -1,64 +1,74 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.ListResourceBundle;
 
 /**
- * Classe con all'interno metodi gia pre-creati che potrebbero servire
- * @version beta
+ * Classe Utility che fornisce i metodi menù, wait e clair screen per il comodo utilizzo del programma
+ * @author Martino (Hallo5685)
+ * @version 1
  * */
 public class Utility
 {
-
     /**
-     * Metodo menu che visualizza a schermo un menu in modo che l'utente possa selezionare una scelta
+     * Mostra un menu di opzioni all'utente e restituisce la scelta effettuata.
+     * Il metodo gestisce errori di input, come inserimenti non numerici o opzioni fuori intervallo,
+     * e richiede all'utente di reinserire una scelta valida.
      *
-     * @param opzioni {@code Array} di tipo Stringa che contiene al suo interno i vari campi di selezione
-     * @param scanner  scanner che legge i dati in input
+     * @param opzioni  Un array di stringhe che rappresenta le opzioni del menu.
+     *                 La prima posizione (indice 0) è utilizzata come titolo del menu.
+     * @param scanner  Un oggetto {@link Scanner} utilizzato per leggere l'input dell'utente.
      *
-     * @return il metodo ritorna il valore numerico della scelta
-     * */
-    public static int Menu(String opzioni[], Scanner scanner) {// parametri formali
-        int scelta;
+     * @return Un intero che rappresenta la scelta effettuata dall'utente, compresa tra 1 e {@code opzioni.length - 1}.
+     *
+     * @throws NumberFormatException  Se l'input non è convertibile in un numero intero.
+     * @throws InputMismatchException Se il tipo di input non è valido.
+     */
+    public static int Menu(String opzioni[], Scanner scanner)
+    {
+        int scelta = -1; // Inizializziamo con un valore di default non valido
+        do
+        {
+            try
+            {
+                clrScr(); // Pulisce lo schermo
+                System.out.println("------------------");
+                System.out.println(opzioni[0]);
+                System.out.println("------------------");
 
-        do {
-            clrScr();
-            System.out.println("------------------");
-            System.out.println(opzioni[0]);
-            System.out.println("------------------");
-            for (int i = 1; i < opzioni.length; i++) {
-                System.out.println("[" + i + "]" + " " + opzioni[i]);
+                for (int i = 1; i < opzioni.length; i++)
+                {
+                    System.out.println("[" + i + "] " + opzioni[i]);
+                }
+
+                scelta = Integer.parseInt(scanner.nextLine()); // Converte l'input in intero
+
+                if (scelta < 1 || scelta > opzioni.length - 1) {
+                    System.out.println("Opzione Sbagliata. Riprova.");
+                    Wait(500);
+                }
+            } catch (NumberFormatException e)
+            {
+                System.out.println("Errore: Input non valido. Inserisci un numero.");
+                Wait(500);
+
+            } catch (InputMismatchException e)
+            {
+                System.out.println("Errore: Tipo di input non valido. Riprova.");
+                scanner.nextLine();
+                Wait(500);
             }
-            scelta = (Integer.parseInt(scanner.nextLine()));
-            //tastiera.nextLine();
-            if ((scelta < 1) || (scelta > opzioni.length - 1)) {
-                System.out.println("Opzione Sbagliata");
-                Wait(2000);
-            }
-        }
-        while ((scelta < 1) || (scelta > opzioni.length - 1));
-        //tastiera.nextLine();
+
+        } while (scelta < 1 || scelta > opzioni.length - 1);
+
         return scelta;
     }
 
-    /**
-     * impedisce di istanziare la classe:
-     *          Se un costruttore è dichiarato come privato, non può essere
-     *          invocato dall'esterno della classe,
-     *          rendendo impossibile creare nuove istanze da altre classi.
-     * */
+
+    //Il costruttore ha lo stessp nome della classe
     private Utility()
-    {};
-
-
-
-    //@throws InterruptedException Se il thread è interrotto durante l'esecuzione del comando. (nel caso inseriscilo nel commento sottostante)
-    /**
-     * Cancella lo schermo della console eseguendo il comando appropriato per il sistema operativo.
-     *
-     * Se il sistema operativo è Windows, verrà eseguito il comando "cls" per pulire la finestra del terminale.
-     * Se si verifica un errore durante l'esecuzione del comando, l'eccezione verrà stampata nel log degli errori.
-     *
-     *
-     */
+    {}; /*impedisce di istanziare la classe:
+         Se un costruttore è dichiarato come privato, non può essere
+         invocato dall'esterno della classe,
+         rendendo impossibile creare nuove istanze da altre classi. */
     public static void clrScr()
     {
         try {
@@ -68,16 +78,8 @@ public class Utility
         }
     }
 
-    //@throws InterruptedException Se il thread è interrotto durante l'esecuzione del comando.
-    /**
-     * metodo per apsettare
-     *
-     * @param attesa lasso di tempo che si aspetta
-     *
-     *
-     *
-     */
-    public static void Wait(int attesa) {
+    public static void Wait(int attesa)
+    {
         try {
             Thread.sleep(attesa);
         } catch (InterruptedException e) {
