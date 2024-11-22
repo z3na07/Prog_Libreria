@@ -14,8 +14,8 @@ public class Persona
     private String nome;
     private boolean prestato;
     private String tesseraBiblioteca;
-    private String libriComprati;
     private String password;
+    private int indicePosizione;
 
 
     /**
@@ -67,14 +67,34 @@ public class Persona
 
         return isPrestato() == persona.isPrestato() && Objects.equals(getNome(), persona.getNome())
                 && Objects.equals(getTesseraBiblioteca(), persona.getTesseraBiblioteca())
-                && Objects.equals(libriComprati, persona.libriComprati)
                 && Objects.equals(getPassword(), persona.getPassword());
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(getNome(), isPrestato(), getTesseraBiblioteca(), libriComprati, getPassword());
+        return Objects.hash(getNome(), isPrestato(), getTesseraBiblioteca(), getPassword());
+    }
+
+    /**
+     * Questo metodo è un **getter** che permette di accedere al valore dell'indice che comunica dove si trova una persona.
+     *
+     * @return l'indice associato all'utente
+     */
+
+    public int getIndicePosizione()
+    {
+        return indicePosizione;
+    }
+
+    /**
+     * Questo metodo è un **setter** che permette di associare un indice all'utente.
+     *
+     * @param indicePosizione intero che passiamo al metodo
+     */
+    public void setIndicePosizione(int indicePosizione)
+    {
+        this.indicePosizione = indicePosizione;
     }
 
     /**
@@ -95,25 +115,6 @@ public class Persona
     public void setNome(String nome)
     {
         this.nome = nome;
-    }
-
-    /**
-     * Questo metodo è un getter che permette di accedere al valore dell'array libricomprati
-     *
-     * @return l'isbn dei libri comprati
-     * */
-    public String getlibriComprati()
-    {
-        return libriComprati;
-    }
-
-    /**
-     * Questo metodo setter che imposta i libri comprati
-     * @param lipriComprati array di stringhe che passiamo al metodo
-     */
-    public void setlibriComprati(String lipriComprati)
-    {
-        this.libriComprati = lipriComprati;
     }
 
     /**
@@ -217,6 +218,7 @@ public class Persona
      */
     public static Persona registrati(Scanner scanner) //throws Exception
     {
+
         //crazione oggetto
         Persona utente = new Persona();
 
@@ -313,7 +315,7 @@ public class Persona
                         //DA CONTROLLARE QUESTO PEZZO DI CODIDE E DA INSERIRE NELL'IF SOTTOSTANTE
                         //&& libro.getIsbn().equals(scaffale.getlibriComprati)
 
-                        if (libro.isVenduto())
+                        if (libro.isVenduto() && libro.getIndiceDiPersonaCheHaConprato() == persona.indicePosizione)
                         {
                             System.out.println(libro.toString());
                         }
@@ -333,13 +335,14 @@ public class Persona
      *
      * @return il metodo ritorna il conto totale azzerato se l'utente ha pagato
      * */
-    public static double pagamento(double contotot, Scanner keyboard){
-
+    public static double pagamento(double contotot, Scanner keyboard)
+    {
         String conferma;
 
         System.out.println("Conto totale da pagare: "+contotot);
         System.out.println("Inserisci si per pagare, inserisci no per uscire");
         conferma = keyboard.nextLine();
+
         if(conferma.equalsIgnoreCase("si")) {
 
             System.out.println("IMPORTO PAGATO");
