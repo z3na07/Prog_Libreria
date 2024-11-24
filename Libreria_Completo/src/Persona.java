@@ -13,6 +13,7 @@ public class Persona
 {
     private String nome;
     private boolean prestato;
+    private double contoDaPagare;
     private String tesseraBiblioteca;
     private String password;
     private int indicePosizione;
@@ -24,12 +25,14 @@ public class Persona
      * @param _nome il nome della persona.
      * @param _tesseraBiblioteca l'ID della tessera biblioteca associata alla persona.
      * @param _password la password associata alla persona per l'accesso al sistema.
+     * @param _contoDaPagare il conto da pagare associato alla persona.
      */
-    public Persona(String _nome, String _tesseraBiblioteca, String _password)
+    public Persona(String _nome, String _tesseraBiblioteca, String _password, double _contoDaPagare)
     {
         this.nome = _nome;
         this.tesseraBiblioteca = _tesseraBiblioteca;
         this.password =_password;
+        this.contoDaPagare = _contoDaPagare;
     }
 
     /**
@@ -40,6 +43,7 @@ public class Persona
         this.nome = null;
         this.prestato = false;
         this.tesseraBiblioteca = null;
+        this.contoDaPagare = 0;
 
     }
 
@@ -52,8 +56,8 @@ public class Persona
     @Override
     public String toString()
     {
-        return String.format("Nome dell'Utente: %s Tessera della biblioteca: %s  \n"
-                ,nome, tesseraBiblioteca);
+        return String.format("Nome dell'Utente: %s Tessera della biblioteca: %s  Conto: %.2f\n"
+                ,nome, tesseraBiblioteca, contoDaPagare);
     }
 
 
@@ -92,6 +96,26 @@ public class Persona
     public int hashCode()
     {
         return Objects.hash(getNome(), isPrestato(), getTesseraBiblioteca(), getPassword());
+    }
+
+    /**
+     * Questo metodo è un **getter** che permette di accedere al valore del conto da pagare.
+     *
+     * @return il valore del conto da pagare
+     */
+    public double getContoDaPagare()
+    {
+        return contoDaPagare;
+    }
+
+    /**
+     * Questo metodo è un **setter** che consente di aggiornare il valore del conto da pagare.
+     *
+     * @param contoDaPagare il nuovo valore del conto da pagare
+     */
+    public void setContoDaPagare(double contoDaPagare)
+    {
+        this.contoDaPagare = contoDaPagare;
     }
 
     /**
@@ -157,7 +181,6 @@ public class Persona
 
     /**
      * Restituisce il valore della tessera della biblioteca dell'utente.
-     *
      * Questo metodo è un **getter** che permette di accedere al valore della tessera della biblioteca associata all'utente.
      *
      * @return strung della tessera della biblioteca.
@@ -346,23 +369,22 @@ public class Persona
      *
      * @return il metodo ritorna il conto totale azzerato se l'utente ha pagato
      * */
-    public static double pagamento(double contotot, Scanner keyboard)
+    public static double pagamento(double contotot, Scanner keyboard, ArrayList<Persona> catalogoPersone, int indiceVolatile)
     {
-        String conferma;
+        Persona persona = catalogoPersone.get(indiceVolatile);
 
-        System.out.println("Conto totale da pagare: "+contotot);
-        System.out.println("Inserisci si per pagare, inserisci no per uscire");
-        conferma = keyboard.nextLine();
+        System.out.println("Conto totale da pagare: " + persona.getContoDaPagare());
+        System.out.println("Inserisci 'si' per pagare, inserisci 'no' per uscire");
+        String conferma = keyboard.nextLine();
 
-        if(conferma.equalsIgnoreCase("si"))
+        // Aggiorna il conto totale se confermato
+        if (conferma.equalsIgnoreCase("si"))
         {
-
             System.out.println("IMPORTO PAGATO");
-
-            contotot = 0;
+            return contotot = 0;
         }
+
         return contotot;
     }
-
 
 }
