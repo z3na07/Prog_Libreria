@@ -255,19 +255,23 @@ public class Libro
      * @param keyboard scanner che legge i dati in input
      * @param scaffale un {@code ArrayList} di tipo {@code Libro} al cui interno sono salvati tutti i libri
      *
-     * @return {@code true} se il libro è stato trovato, {@code false} altrimenti
+     * @return indice se il libro è stato trovato, -1 altrimenti
      * */
     public static int ricerca(ArrayList<Libro> scaffale, Scanner keyboard, int indice)
     {
         System.out.println("Inserire il l'isbn del libro: ");
         String isbnMomentaneo = keyboard.nextLine();
 
-        for (Libro libro : scaffale)
+        for (int i = 0; i < scaffale.size(); i++)
         {
+            Libro libro = scaffale.get(i);
+
             if (libro.isbn.equalsIgnoreCase(isbnMomentaneo))
             {
-                indice = scaffale.indexOf(libro);
-                return indice;
+                if (i != indice)
+                {
+                    return i;
+                }
             }
         }
         return -1;
