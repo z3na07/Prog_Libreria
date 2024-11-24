@@ -87,22 +87,27 @@ public class Main
                                     System.out.println("Non ci sono libri da acquistare");
                                 } else
                                 {
-                                    if(Libro.ricerca(scaffale, keyboard, indice) == -1)
+                                    int risulatatoRicerca = Libro.ricerca(scaffale, keyboard, indice);
+
+                                    if(risulatatoRicerca == -1)
                                     {
                                         System.out.println("Il libro non è presente nel catalogo ");
                                     }
                                     else
                                     {
-                                        System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
+                                        System.out.println("Il prezzo da pagare è: "+scaffale.get(risulatatoRicerca).getPrezzo()+" euro");
                                         Utility.Wait(3);
 
                                         System.out.println("Il libro verrà messo nel carrello ");
-                                        scaffale.get(indice).setVenduto(true);
+                                        scaffale.get(risulatatoRicerca).setVenduto(true);
 
                                         //imposta l'attributo indiceDiPersonaCheHaComprato al numero corrispondente dato da indiceVolatile
-                                        scaffale.get(indice).setIndiceDiPersonaCheHaConprato(indiceVolatile);
+                                        scaffale.get(risulatatoRicerca).setIndiceDiPersonaCheHaConprato(indiceVolatile);
                                         carrrelllo = true;
-                                        contoTot += scaffale.get(indice).getPrezzo();
+
+                                        contoTot = scaffale.get(risulatatoRicerca).getPrezzo();
+                                        catalogoPersone.get(indiceVolatile).setContoDaPagare(contoTot); //+= scaffale.get(risulatatoRicerca).getPrezzo();
+
                                     }
                                 }
                                 break;
@@ -131,7 +136,10 @@ public class Main
                                     System.out.println("non hai nulla da pagare");
                                 }else
                                 {
-                                    Persona.pagamento(contoTot, keyboard);
+                                    if(Persona.pagamento(contoTot, keyboard,catalogoPersone, indiceVolatile) == 0)
+                                    {
+                                        catalogoPersone.get(indiceVolatile).setContoDaPagare(0);
+                                    }
                                 }
                                 break;
 
@@ -145,6 +153,7 @@ public class Main
 
                     //incremento della posizione da salvare negli attributi di libro e persona
                     indiceVolatile++;
+
                     //break del primo case principale
                     break;
 
@@ -156,8 +165,7 @@ public class Main
                         System.out.println("Accesso eseguito corretamente \n");
                         //fineLogin = false;
 
-                        do
-                        {
+                        do {
                             fine = true;
 
                             switch (Utility.Menu(opzioniUtente, keyboard))
@@ -169,38 +177,46 @@ public class Main
                                         System.out.println("Non ci sono libri da acquistare");
                                     } else
                                     {
-                                        if(Libro.ricerca(scaffale, keyboard, indice) == -1)
+                                        int risulatatoRicerca = Libro.ricerca(scaffale, keyboard, indice);
+
+                                        if(risulatatoRicerca == -1)
                                         {
                                             System.out.println("Il libro non è presente nel catalogo ");
                                         }
                                         else
                                         {
-
-                                            System.out.println("Il prezzo da pagare è: "+scaffale.get(indice).getPrezzo()+" euro");
+                                            System.out.println("Il prezzo da pagare è: "+scaffale.get(risulatatoRicerca).getPrezzo()+" euro");
                                             Utility.Wait(3);
 
                                             System.out.println("Il libro verrà messo nel carrello ");
-                                            scaffale.get(indice).setVenduto(true);
-                                            contoTot += scaffale.get(indice).getPrezzo();
+                                            scaffale.get(risulatatoRicerca).setVenduto(true);
+
+                                            //imposta l'attributo indiceDiPersonaCheHaComprato al numero corrispondente dato da indiceVolatile
+                                            scaffale.get(risulatatoRicerca).setIndiceDiPersonaCheHaConprato(indiceVolatile);
+                                            carrrelllo = true;
+
+                                            contoTot = scaffale.get(risulatatoRicerca).getPrezzo();
+                                            catalogoPersone.get(indiceVolatile).setContoDaPagare(contoTot); //+= scaffale.get(risulatatoRicerca).getPrezzo();
+
                                         }
                                     }
                                     break;
 
                                 case 2:
-
+                                    //visualizza il carrello
                                     Persona.visualizzaCarrello(scaffale, keyboard, catalogoPersone, carrrelllo);
+
                                     break;
 
                                 case 3:
-
                                     //visualizza il catalogo
                                     Libro.visualizzaScaffale(scaffale);
                                     break;
 
                                 case 4:
-
                                     //visualizza dati dell'utente
                                     Persona.visualizzaDatiUtente(catalogoPersone, keyboard);
+
                                     break;
 
                                 case 5:
@@ -210,7 +226,10 @@ public class Main
                                         System.out.println("non hai nulla da pagare");
                                     }else
                                     {
-                                        Persona.pagamento(contoTot, keyboard);
+                                        if(Persona.pagamento(contoTot, keyboard,catalogoPersone, indiceVolatile) == 0)
+                                        {
+                                            catalogoPersone.get(indiceVolatile).setContoDaPagare(0);
+                                        }
                                     }
                                     break;
 
@@ -228,7 +247,7 @@ public class Main
                     break;
 
                 case 3:
-                    //accesso commesso
+                    //ACCESSO COMMESSO
                     Commesso commesso = new Commesso();
 
                     System.out.println("Inserisci password");
@@ -264,7 +283,8 @@ public class Main
                                     break;
 
                                 case 5:
-                                    if(Libro.ricerca(scaffale, keyboard, indice) != -1){
+                                    if(Libro.ricerca(scaffale, keyboard, indice) != -1)
+                                    {
                                         System.out.println("Il libro è presente");
                                     }
                                     break;
